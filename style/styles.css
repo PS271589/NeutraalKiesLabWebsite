@@ -20,6 +20,12 @@ nav {
     border-bottom: 1px solid #E5E7EB;
 }
 
+h1 {
+    font-size: 60px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
 .login {
     font-family: 'Inter', sans-serif;
     background-color: transparent;
@@ -40,6 +46,22 @@ nav {
     border-radius: 10px;
     cursor: pointer;
     font-size: 16px;
+}
+
+.hero{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 50px 200px;
+}
+
+.hero p {
+    font-size: 20px;
+    line-height: 1.6;
+    width: 60%;
+    margin: 0 auto 20px;
+    color: #4A5565;
+    text-align: center;
 }
 
 img.logo {
