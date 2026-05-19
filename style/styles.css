@@ -20,6 +20,15 @@ nav {
     border-bottom: 1px solid #E5E7EB;
 }
 
+footer {
+    text-align: center;
+    padding: 30px;
+    background-color: #ffffff;
+    border-top: 1px solid #E5E7EB;
+    margin-top: 50px;
+    color: #4A5565;
+}
+
 h1 {
     font-size: 60px;
     margin-bottom: 20px;
