@@ -32,12 +32,33 @@ h2 {
     color: #101828;
 }
 
+a {
+    color: #2B2D42;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+button {
+    font-family: 'Inter', sans-serif;
+    background-color: #2B2D42;
+    color: #ffffff;
+    border: none;
+    padding: 18px 25px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 14px;
+}
+
 .login {
     font-family: 'Inter', sans-serif;
     background-color: transparent;
     color: #2B2D42;
     border: none;
-    padding: 10px;
+    padding: 15px;
     cursor: pointer;
     font-size: 16px;
     margin-right: 15px;
@@ -56,18 +77,20 @@ h2 {
 
 .features {
     display: flex;
-    justify-content: space-around;
-    padding: 50px 200px;
+    justify-content: space-between;
+    padding: 20px 200px;
 }
 
 .feature {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    padding: 50px 200px;
+    padding: 25px 50px;
+    max-width: 420px;
     background-color: #FFFFFF;
     border-radius: 16px;
     border: 1px solid #E5E7EB;
+    margin: 15px;
 }
 
 .feature p {
@@ -93,7 +116,7 @@ h2 {
     font-size: 20px;
     line-height: 1.6;
     width: 60%;
-    margin: 0 auto 20px;
+    margin: 0 auto 10px;
     color: #4A5565;
     text-align: center;
 }
@@ -101,3 +124,24 @@ h2 {
 img.logo {
     height: 45px;
 }
+
+.start {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 30px 200px;
+}
+
+.start-button {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: transform 0.1s ease;
+    margin-bottom: 15px;
+}
+
+.start-button:hover {
+    transform: scale(1.05);
+}
+
