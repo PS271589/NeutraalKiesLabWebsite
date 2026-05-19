@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="style/styles.css">
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Inter">
+    <script src="scripts/script.js" defer></script>
 </head>
 <body>
     <nav>
@@ -14,8 +15,8 @@
             <img class="logo" src="assets/logo-met-text-rechts.svg" alt="Neutraal KiesLab Logo">
         </a>
         <div>
-            <button class="login">Inloggen</button>
-            <button class="register">Registreren</button>
+            <button class="login" onclick="window.location.href='login.php'">Inloggen</button>
+            <button class="register" onclick="window.location.href='register.php'">Registreren</button>
         </div>
     </nav>
     <main>
@@ -44,6 +45,10 @@
 
         <section class="start">
             <button class="start-button">Start de Stemwijzer<img id="arrow" src="assets/arrow.svg" alt="Arrow icon"></button>
+            <div class="election-select">
+                <button class="election-button">Tweede Kamerverkiezingen 2025</button>
+                <button class="election-button">Provinciale Statenverkiezingen 2026</button>
+            </div>
             <p>Of <span><a href="register.php">maak een account aan</a></span> om je resultaten te bewaren</p>
         </section>
     </main>
