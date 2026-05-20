@@ -14,6 +14,7 @@
             Terug naar Home
         </button>
         <div class="register-container">
+            <img class="container-logo" src="assets/logo-met-text-rechts.svg" alt="Neutraal KiesLab Logo">
             <h1>Account aanmaken</h1>
             <p>Bewaar je resultaten en bekijk ze later terug</p>
             <form action="register.php" method="post">
