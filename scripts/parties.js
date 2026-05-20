@@ -1,5 +1,5 @@
-const dropdownButton = document.querySelector('.dropdown');
-const dropdownContent = document.querySelector('.dropdown-content');
+const dropdownButton = document.getElementsByClassName('dropdown')[0];
+const dropdownContent = document.getElementsByClassName('dropdown-content')[0];
 
 dropdownButton.addEventListener('click', (e) => {
     e.stopPropagation();

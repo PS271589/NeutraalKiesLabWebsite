@@ -11,7 +11,7 @@
 </head>
 <body>
     <nav>
-        <a href="index.html">
+        <a href="index.php">
             <img class="logo" src="assets/logo-met-text-rechts.svg" alt="Neutraal KiesLab Logo">
         </a>
         <div>

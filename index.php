@@ -11,16 +11,13 @@
 </head>
 <body>
     <nav>
-        <a href="index.html">
+        <a href="index.php">
             <img class="logo" src="assets/logo-met-text-rechts.svg" alt="Neutraal KiesLab Logo">
         </a>
         <div>
             <button class="parties">Partijen</button>
             <button class="login">Inloggen</button>
-            <button class="register">
-                <?php header("Location: register.php") exit; ?>
-                Registreren
-            </button>
+            <button class="register">Registreren</button>
         </div>
     </nav>
     <main>
