@@ -68,6 +68,23 @@ button:hover {
     background-color: #1b1d2a;
 }
 
+.parties {
+    font-family: 'Inter', sans-serif;
+    background-color: transparent;
+    color: #364153;
+    border: none;
+    padding: 15px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-right: 15px;
+}
+
+.parties:hover {
+    color: #1b1d2a;
+    background-color: transparent;
+    transform: scale(1);
+}
+
 .login {
     font-family: 'Inter', sans-serif;
     background-color: transparent;
@@ -176,3 +193,124 @@ img.logo {
 .election-select {
     display: none;
 }
+
+.parties-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 50px 200px;
+}
+
+.parties-hero h1 {
+    font-size: 48px;
+    margin-bottom: 15px;
+}
+
+.parties-hero p {
+    font-size: 18px;
+    line-height: 1.6;
+    color: #4A5565;
+    margin-bottom: 30px;
+}
+
+.search-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.search-container p {
+    font-size: 16px;
+    margin-right: 10px;
+    color: #364153;
+}
+
+.dropdown {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: flex-start;
+    background-color: #F3F3F5;
+    border: 1px solid #E5E7EB;
+    cursor: pointer;
+    padding: 5px;
+    gap: 5px;
+    min-width: 300px;
+    max-width: 400px;
+    border-radius: 8px;
+    height: 30px;
+}
+
+.dropdown:hover {
+    background-color: #E5E7EB;
+    transform: scale(1);
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #FFFFFF;
+    border: 1px solid #E5E7EB;
+    border-radius: 8px;
+    margin-top: 30px;
+    width: 17%;
+    z-index: 1;
+    padding: 4px;
+}
+
+.dropdown-content button {
+    width: 100%;
+    padding: 10px;
+    background-color: transparent;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    font-size: 14px;
+    color: #364153;
+    border-radius: 6px;
+}
+
+.dropdown-content button:hover {
+    background-color: #F3F3F5;
+    transform: scale(1);
+}
+
+.parties-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px 200px;
+}
+
+.party-card {
+    background-color: #FFFFFF;
+    border: 2px solid #E5E7EB;
+    border-radius: 16px;
+    padding: 20px;
+    width: calc(33.333% - 20px);
+    transition: box-shadow 0.1s ease;
+}
+
+.party-card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.party-card h2 {
+    font-size: 28px;
+    margin-bottom: 10px;
+    color: #101828;
+}
+
+.party-card p {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #4A5565;
+}
+
+.party-logo {
+    width: 100%;
+    height: 150px;
+    background-color: #E5E7EB;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
