@@ -17,7 +17,10 @@
         <div>
             <button class="parties">Partijen</button>
             <button class="login">Inloggen</button>
-            <button class="register">Registreren</button>
+            <button class="register">
+                <?php header("Location: register.php") exit; ?>
+                Registreren
+            </button>
         </div>
     </nav>
     <main>
