@@ -1,9 +1,9 @@
 //homepage buttons
-const startButton = document.getElementsByClassName('start-button')[0];
-const electionSelect = document.getElementsByClassName('election-select')[0];
-const loginButton = document.getElementsByClassName('login')[0];
-const registerButton = document.getElementsByClassName('register')[0];
-const partiesButton = document.getElementsByClassName('parties')[0];
+const startButton = document.querySelector('.start-button');
+const electionSelect = document.querySelector('.election-select');
+const loginButton = document.querySelector('.login');
+const registerButton = document.querySelector('.register');
+const partiesButton = document.querySelector('.parties');
 
 partiesButton.addEventListener('click', () => {
     window.location.href = 'partijen.html';
