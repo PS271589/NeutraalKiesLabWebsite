@@ -6,6 +6,7 @@
     <title>Neutraal KiesLab - Register</title>
     <link rel="stylesheet" href="style/styles.css">
     <script src="scripts/register.js" defer></script>
+    <link rel="icon" type="image/svg" href="assets/logo-neutraal-kieslab-lichtblauw.svg">
 </head>
 <body>
     <div class="register-page">

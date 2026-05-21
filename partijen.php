@@ -8,6 +8,7 @@
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Inter">
     <script src="scripts/parties.js" defer></script>
+    <link rel="icon" type="image/svg" href="assets/logo-neutraal-kieslab-lichtblauw.svg">
 </head>
 <body>
     <nav>
