@@ -8,10 +8,11 @@
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Inter">
     <script src="scripts/homepage.js" defer></script>
+    <link rel="icon" type="image/svg" href="assets/logo-neutraal-kieslab-lichtblauw.svg">
 </head>
 <body>
     <nav>
-        <a href="index.html">
+        <a href="index.php">
             <img class="logo" src="assets/logo-met-text-rechts.svg" alt="Neutraal KiesLab Logo">
         </a>
         <div>
