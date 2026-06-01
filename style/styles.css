@@ -231,7 +231,7 @@ img.logo {
 
 .dropdown {
     display: flex;
-    flex-direction: row;
+    flex-direction: row-reverse;
     align-items: flex-start;
     background-color: #F3F3F5;
     color: #1b1d2a;
@@ -277,6 +277,11 @@ img.logo {
 .dropdown-content button:hover {
     background-color: #F3F3F5;
     transform: scale(1);
+}
+
+.dropdown-text {
+    font-size: 14px;
+    color: #364153;
 }
 
 .parties-list {

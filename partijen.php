@@ -4,20 +4,20 @@ require_once "database-handler.php";
 $db = new DatabaseHandler();
 $elections = $db->SelectElections();
 
-$electionId = $_GET["electionId"] ?? null;
+$electionId = isset($_GET["electionId"]) ? (int)$_GET["electionId"] : null;
 
 $selectedElection = null;
 
-if (!$electionId && count($elections) > 0) {
-    $selectedElection = $elections[0];
-    $electionId = $selectedElection["id"];
-} else {
-    foreach ($elections as $election) {
-        if ($election["id"] == $electionId) {
-            $selectedElection = $election;
-            break;
-        }
+foreach ($elections as $election) {
+    if ((int)$election["id"] === $electionId) {
+        $selectedElection = $election;
+        break;
     }
+}
+
+if (!$selectedElection && count($elections) > 0) {
+    $selectedElection = $elections[0];
+    $electionId = (int)$selectedElection["id"];
 }
 
 $parties = [];
@@ -31,7 +31,7 @@ if ($electionId) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neutraal KiesLab - Home</title>
+    <title>Neutraal KiesLab - Partijen</title>
     <link rel="stylesheet" href="style/styles.css">
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Inter">
@@ -54,9 +54,10 @@ if ($electionId) {
             <h1>Politieke Partijen</h1>
             <p>Bekijk welke partijen deelnemen aan verschillende verkiezingen</p>
             <div class="search-container">
-                <p>Selecteer verkiezing:</p>
                 <button class="dropdown">
-                    <?= htmlspecialchars($selectedElection["name"] ?? "Selecteer verkiezing") ?>
+                    <p class="dropdown-text">
+                        <?= htmlspecialchars($selectedElection["name"] ?? "Selecteer verkiezing") ?>
+                    </p>
                     <img src="assets/icon-dropdown.svg" alt="Dropdown arrow">
                 </button>
                 <div class="dropdown-content">
