@@ -6,6 +6,7 @@ CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
     role VARCHAR(20) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -106,12 +107,37 @@ CREATE TABLE party_answers (
 );
 
 -- USERS 
-INSERT INTO users (name, email, role) VALUES 
-('Jan Jansen', 'jan@example.com', 'user'), 
-('Emma de Vries', 'emma@example.com', 'user'), 
-('Noah Bakker', 'noah@example.com', 'user'), 
-('Lisa Visser', 'lisa@example.com', 'admin'), 
-('Milan Smit', 'milan@example.com', 'user'); 
+INSERT INTO users (name, email, password, role) VALUES
+(
+    'Jan Jansen',
+    'jan@example.com',
+    '$2y$10$8J6rN3pR4qB5K7cM9xA8Se6xkP1mF7uQ9vD3hT2yW1zL4nR5sC8uG',
+    'user'
+),
+(
+    'Emma de Vries',
+    'emma@example.com',
+    '$2y$10$8J6rN3pR4qB5K7cM9xA8Se6xkP1mF7uQ9vD3hT2yW1zL4nR5sC8uG',
+    'user'
+),
+(
+    'Noah Bakker',
+    'noah@example.com',
+    '$2y$10$8J6rN3pR4qB5K7cM9xA8Se6xkP1mF7uQ9vD3hT2yW1zL4nR5sC8uG',
+    'user'
+),
+(
+    'Lisa Visser',
+    'lisa@example.com',
+    '$2y$10$8J6rN3pR4qB5K7cM9xA8Se6xkP1mF7uQ9vD3hT2yW1zL4nR5sC8uG',
+    'admin'
+),
+(
+    'Milan Smit',
+    'milan@example.com',
+    '$2y$10$8J6rN3pR4qB5K7cM9xA8Se6xkP1mF7uQ9vD3hT2yW1zL4nR5sC8uG',
+    'user'
+);
 
 -- ELECTIONS 
 INSERT INTO elections (name, date, description) VALUES 
@@ -142,7 +168,8 @@ INSERT INTO questions (questionnaire_id, question, weight) VALUES
 (2, 'De gemeente moet meer investeren in cultuur.', 1), 
 (2, 'Nachtbussen moeten vaker rijden.', 1); 
 
--- ELECTION_PARTIES INSERT INTO election_parties 
+-- ELECTION_PARTIES 
+INSERT INTO election_parties 
 (election_id, party_id, position) VALUES 
 (1, 1, 1), 
 (1, 2, 2), 
