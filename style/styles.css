@@ -231,9 +231,10 @@ img.logo {
 
 .dropdown {
     display: flex;
-    flex-direction: row-reverse;
+    flex-direction: row;
     align-items: flex-start;
     background-color: #F3F3F5;
+    color: #1b1d2a;
     border: 1px solid #E5E7EB;
     cursor: pointer;
     padding: 5px;
@@ -376,6 +377,11 @@ img.logo {
     flex-direction: column;
     gap: 3px;
     width: 100%;
+}
+
+.dropdown-content button.active {
+    font-weight: bold;
+    background-color: #E5E7EB;
 }
 
 form input {

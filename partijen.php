@@ -1,3 +1,31 @@
+<?php
+require_once "database-handler.php";
+
+$db = new DatabaseHandler();
+$elections = $db->SelectElections();
+
+$electionId = $_GET["electionId"] ?? null;
+
+$selectedElection = null;
+
+if (!$electionId && count($elections) > 0) {
+    $selectedElection = $elections[0];
+    $electionId = $selectedElection["id"];
+} else {
+    foreach ($elections as $election) {
+        if ($election["id"] == $electionId) {
+            $selectedElection = $election;
+            break;
+        }
+    }
+}
+
+$parties = [];
+if ($electionId) {
+    $parties = $db->SelectPartiesByElection($electionId);
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,23 +56,40 @@
             <div class="search-container">
                 <p>Selecteer verkiezing:</p>
                 <button class="dropdown">
-
+                    <?= htmlspecialchars($selectedElection["name"] ?? "Selecteer verkiezing") ?>
                     <img src="assets/icon-dropdown.svg" alt="Dropdown arrow">
                 </button>
                 <div class="dropdown-content">
-                    <button>Gemeenteraadsverkiezingen</button>
-                    <button>Provinciale Statenverkiezingen</button>
-                    <button>Waterschapsverkiezingen</button>
-                    <button>Tweede Kamerverkiezingen</button>
+                    <?php foreach ($elections as $election): ?>
+                        <button
+                            data-election-id="<?= $election['id']; ?>"
+                            class="<?= ($election['id'] == $electionId) ? 'active' : '' ?>"
+                        >
+                            <?= htmlspecialchars($election['name']); ?>
+                        </button>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </section>
         <section class="parties-list">
-            <div class="party-card">
-                <div class="party-logo"></div>
-                <h2>Partij A</h2>
-                <p>Korte beschrijving van Partij A.</p>
-            </div>
+            <?php if ($parties && count($parties) > 0): ?>
+                <?php foreach ($parties as $party): ?>
+                    <div class="party-card">
+                        <div class="party-logo"></div>
+                        
+                        <h2>
+                            <?= htmlspecialchars($party["name"]) ?>
+                        </h2>
+
+                        <p>
+                            <?= htmlspecialchars($party["description"] ?? "Geen beschrijving") ?>
+                        </p>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p>Geen partijen gevonden voor deze verkiezing.</p>
+            <?php endif; ?>
+    </section>
     </main>
     <footer>
         <p>&copy; 2026 Neutraal KiesLab. Alle rechten voorbehouden.</p>
