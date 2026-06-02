@@ -119,6 +119,23 @@ button:hover {
     transform: scale(1);
 }
 
+.logout {
+    font-family: 'Inter', sans-serif;
+    background-color: transparent;
+    color: #364153;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-left: 15px;
+}
+
+.logout:hover {
+    color: #1b1d2a;
+    background-color: transparent;
+    transform: scale(1);
+}
+
 .features {
     display: flex;
     justify-content: space-between;
@@ -234,6 +251,7 @@ img.logo {
     flex-direction: row-reverse;
     align-items: flex-start;
     background-color: #F3F3F5;
+    color: #1b1d2a;
     border: 1px solid #E5E7EB;
     cursor: pointer;
     padding: 5px;
@@ -276,6 +294,11 @@ img.logo {
 .dropdown-content button:hover {
     background-color: #F3F3F5;
     transform: scale(1);
+}
+
+.dropdown-text {
+    font-size: 14px;
+    color: #364153;
 }
 
 .parties-list {
@@ -376,6 +399,11 @@ img.logo {
     flex-direction: column;
     gap: 3px;
     width: 100%;
+}
+
+.dropdown-content button.active {
+    font-weight: bold;
+    background-color: #E5E7EB;
 }
 
 form input {

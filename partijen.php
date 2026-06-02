@@ -1,9 +1,38 @@
+<?php
+require_once "database-handler.php";
+session_start();
+
+$db = new DatabaseHandler();
+$elections = $db->SelectElections();
+
+$electionId = isset($_GET["electionId"]) ? (int)$_GET["electionId"] : null;
+
+$selectedElection = null;
+
+foreach ($elections as $election) {
+    if ((int)$election["id"] === $electionId) {
+        $selectedElection = $election;
+        break;
+    }
+}
+
+if (!$selectedElection && count($elections) > 0) {
+    $selectedElection = $elections[0];
+    $electionId = (int)$selectedElection["id"];
+}
+
+$parties = [];
+if ($electionId) {
+    $parties = $db->SelectPartiesByElection($electionId);
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neutraal KiesLab - Home</title>
+    <title>Neutraal KiesLab - Partijen</title>
     <link rel="stylesheet" href="style/styles.css">
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Inter">
@@ -17,8 +46,15 @@
         </a>
         <div>
             <button class="parties">Partijen</button>
-            <button class="login">Inloggen</button>
-            <button class="register">Registreren</button>
+
+            <?php if (isset($_SESSION["user_id"])): ?>
+                <button class="logout" onclick="window.location.href='logout.php'">
+                    Uitloggen
+                </button>
+            <?php else: ?>
+                <button class="login">Inloggen</button>
+                <button class="register">Registreren</button>
+            <?php endif; ?>
         </div>
     </nav>
     <main>
@@ -26,25 +62,43 @@
             <h1>Politieke Partijen</h1>
             <p>Bekijk welke partijen deelnemen aan verschillende verkiezingen</p>
             <div class="search-container">
-                <p>Selecteer verkiezing:</p>
                 <button class="dropdown">
-
+                    <p class="dropdown-text">
+                        <?= htmlspecialchars($selectedElection["name"] ?? "Selecteer verkiezing") ?>
+                    </p>
                     <img src="assets/icon-dropdown.svg" alt="Dropdown arrow">
                 </button>
                 <div class="dropdown-content">
-                    <button>Gemeenteraadsverkiezingen</button>
-                    <button>Provinciale Statenverkiezingen</button>
-                    <button>Waterschapsverkiezingen</button>
-                    <button>Tweede Kamerverkiezingen</button>
+                    <?php foreach ($elections as $election): ?>
+                        <button
+                            data-election-id="<?= $election['id']; ?>"
+                            class="<?= ($election['id'] == $electionId) ? 'active' : '' ?>"
+                        >
+                            <?= htmlspecialchars($election['name']); ?>
+                        </button>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </section>
         <section class="parties-list">
-            <div class="party-card">
-                <div class="party-logo"></div>
-                <h2>Partij A</h2>
-                <p>Korte beschrijving van Partij A.</p>
-            </div>
+            <?php if ($parties && count($parties) > 0): ?>
+                <?php foreach ($parties as $party): ?>
+                    <div class="party-card">
+                        <div class="party-logo"></div>
+                        
+                        <h2>
+                            <?= htmlspecialchars($party["name"]) ?>
+                        </h2>
+
+                        <p>
+                            <?= htmlspecialchars($party["description"] ?? "Geen beschrijving") ?>
+                        </p>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p>Geen partijen gevonden voor deze verkiezing.</p>
+            <?php endif; ?>
+    </section>
     </main>
     <footer>
         <p>&copy; 2026 Neutraal KiesLab. Alle rechten voorbehouden.</p>

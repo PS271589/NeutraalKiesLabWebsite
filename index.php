@@ -1,3 +1,11 @@
+<?php
+require_once "database-handler.php";
+session_start();
+
+$db = new DatabaseHandler();
+$elections = $db->SelectElections();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,8 +25,15 @@
         </a>
         <div>
             <button class="parties">Partijen</button>
-            <button class="login">Inloggen</button>
-            <button class="register">Registreren</button>
+
+            <?php if (isset($_SESSION["user_id"])): ?>
+                <button class="logout" onclick="window.location.href='logout.php'">
+                    Uitloggen
+                </button>
+            <?php else: ?>
+                <button class="login">Inloggen</button>
+                <button class="register">Registreren</button>
+            <?php endif; ?>
         </div>
     </nav>
     <main>
@@ -48,8 +63,15 @@
         <section class="start">
             <button class="start-button">Start de Stemwijzer<img id="arrow" src="assets/arrow.svg" alt="Arrow icon"></button>
             <div class="election-select">
-                <button class="election-button">Tweede Kamerverkiezingen 2025</button>
-                <button class="election-button">Provinciale Statenverkiezingen 2026</button>
+                <?php if ($elections): ?>
+                    <?php foreach ($elections as $election): ?>
+                        <button class="election-button">
+                            <?= htmlspecialchars($election["name"]) ?>
+                        </button>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <p>Geen verkiezingen gevonden</p>
+                <?php endif; ?>
             </div>
             <p>Of <span><a href="register.php">maak een account aan</a></span> om je resultaten te bewaren</p>
         </section>

@@ -1,3 +1,28 @@
+<?php
+require_once "database-handler.php";
+session_start();
+
+$db = new DatabaseHandler();
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $name = $_POST["name"] ?? "";
+    $email = $_POST["email"] ?? "";
+    $password = $_POST["password"] ?? "";
+    $confirmPassword = $_POST["confirm_password"] ?? "";
+
+    if ($password !== $confirmPassword) {
+        echo "<script>alert('Wachtwoorden komen niet overeen.');</script>";
+    } else {
+        $result = $db->CreateUser($name, $email, $password);
+        if ($result) {
+            echo "<script>window.location.href='login.php';</script>";
+        } else {
+            echo "<script>alert('Er is een fout opgetreden bij het aanmaken van het account. Probeer het opnieuw.');</script>";
+        }
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,8 +44,8 @@
             <h1>Account aanmaken</h1>
             <p>Bewaar je resultaten en bekijk ze later terug</p>
             <form action="register.php" method="post">
-                <label for="username">Naam</label>
-                <input type="text" id="username" name="username" placeholder="Jouw naam" required><br>
+                <label for="name">Naam</label>
+                <input type="text" id="name" name="name" placeholder="Jouw naam" required><br>
 
                 <label for="email">E-mailadres</label>
                 <input type="email" id="email" name="email" placeholder="voorbeeld@email.nl" required><br>
