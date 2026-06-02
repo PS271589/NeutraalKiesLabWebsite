@@ -1,3 +1,22 @@
+<?php
+require_once "database-handler.php";
+
+$db = new DatabaseHandler();
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $email = $_POST["email"] ?? "";
+    $password = $_POST["password"] ?? "";
+
+    $user = $db->SelectUserByEmail($email);
+
+    if ($user && password_verify($password, $user["password"])) {
+        echo "<script>window.location.href='index.php';</script>";
+    } else {
+        echo "<script>alert('Ongeldig e-mailadres of wachtwoord. Probeer het opnieuw.');</script>";
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

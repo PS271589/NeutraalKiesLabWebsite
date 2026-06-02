@@ -37,5 +37,39 @@ class DatabaseHandler
             return false;
         }
     }
+
+    public function CreateUser($name, $email, $password)
+    {
+        try
+        {
+            $pdo = new PDO($this->dataSource, $this->username, $this->password);
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+            $statement = $pdo->prepare("INSERT INTO users (name, email, password) VALUES (:name, :email, :password)");
+            $statement->bindParam(':name', $name);
+            $statement->bindParam(':email', $email);
+            $statement->bindParam(':password', $hashedPassword);
+            return $statement->execute();
+        }
+        catch (PDOException $e)
+        {
+            return false;
+        }
+    }
+
+    public function SelectUserByEmail($email)
+    {
+        try
+        {
+            $pdo = new PDO($this->dataSource, $this->username, $this->password);
+            $statement = $pdo->prepare("SELECT * FROM users WHERE email = :email");
+            $statement->bindParam(':email', $email);
+            $statement->execute();
+            return $statement->fetch(PDO::FETCH_ASSOC);
+        }
+        catch (PDOException $e)
+        {
+            return false;
+        }
+    }
 }
 ?>
