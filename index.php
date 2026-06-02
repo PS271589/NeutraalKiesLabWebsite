@@ -27,8 +27,7 @@ $elections = $db->SelectElections();
             <button class="parties">Partijen</button>
 
             <?php if (isset($_SESSION["user_id"])): ?>
-                <span>Welkom, <?= htmlspecialchars($_SESSION["user_name"]) ?></span>
-                <button onclick="window.location.href='logout.php'">
+                <button class="logout" onclick="window.location.href='logout.php'">
                     Uitloggen
                 </button>
             <?php else: ?>

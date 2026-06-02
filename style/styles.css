@@ -119,6 +119,23 @@ button:hover {
     transform: scale(1);
 }
 
+.logout {
+    font-family: 'Inter', sans-serif;
+    background-color: transparent;
+    color: #364153;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-left: 15px;
+}
+
+.logout:hover {
+    color: #1b1d2a;
+    background-color: transparent;
+    transform: scale(1);
+}
+
 .features {
     display: flex;
     justify-content: space-between;
