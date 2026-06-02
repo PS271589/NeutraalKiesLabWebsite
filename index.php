@@ -1,5 +1,6 @@
 <?php
 require_once "database-handler.php";
+session_start();
 
 $db = new DatabaseHandler();
 $elections = $db->SelectElections();
@@ -24,8 +25,16 @@ $elections = $db->SelectElections();
         </a>
         <div>
             <button class="parties">Partijen</button>
-            <button class="login">Inloggen</button>
-            <button class="register">Registreren</button>
+
+            <?php if (isset($_SESSION["user_id"])): ?>
+                <span>Welkom, <?= htmlspecialchars($_SESSION["user_name"]) ?></span>
+                <button onclick="window.location.href='logout.php'">
+                    Uitloggen
+                </button>
+            <?php else: ?>
+                <button class="login">Inloggen</button>
+                <button class="register">Registreren</button>
+            <?php endif; ?>
         </div>
     </nav>
     <main>

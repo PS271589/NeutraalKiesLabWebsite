@@ -1,5 +1,6 @@
 <?php
 require_once "database-handler.php";
+session_start();
 
 $db = new DatabaseHandler();
 

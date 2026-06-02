@@ -1,5 +1,6 @@
 <?php
 require_once "database-handler.php";
+session_start();
 
 $db = new DatabaseHandler();
 
@@ -10,10 +11,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $user = $db->SelectUserByEmail($email);
 
     if ($user && password_verify($password, $user["password"])) {
-        echo "<script>window.location.href='index.php';</script>";
-    } else {
-        echo "<script>alert('Ongeldig e-mailadres of wachtwoord. Probeer het opnieuw.');</script>";
-    }
+    $_SESSION["user_id"] = $user["id"];
+    $_SESSION["user_name"] = $user["name"];
+
+    header("Location: index.php");
+    exit();
+}
 }
 ?>
 
