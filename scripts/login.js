@@ -1,4 +1,6 @@
 const backButton = document.querySelector('.back-button');
-backButton.addEventListener('click', () => {
-    window.location.href = 'index.php';
-});
+if (backButton) {
+    backButton.addEventListener('click', () => {
+        window.location.href = 'index.php';
+    });
+}

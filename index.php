@@ -73,7 +73,9 @@ $elections = $db->SelectElections();
                     <p>Geen verkiezingen gevonden</p>
                 <?php endif; ?>
             </div>
-            <p>Of <span><a href="register.php">maak een account aan</a></span> om je resultaten te bewaren</p>
+            <?php if (!isset($_SESSION["user_id"])): ?>
+                <p>Of <span><a href="register.php">maak een account aan</a></span> om je resultaten te bewaren</p>
+            <?php endif; ?>
         </section>
     </main>
     <footer>
