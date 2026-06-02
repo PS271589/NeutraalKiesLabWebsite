@@ -5,19 +5,27 @@ const loginButton = document.getElementsByClassName('login')[0];
 const registerButton = document.getElementsByClassName('register')[0];
 const partiesButton = document.getElementsByClassName('parties')[0];
 
-partiesButton.addEventListener('click', () => {
-    window.location.href = 'partijen.php';
-});
+if (partiesButton) {
+    partiesButton.addEventListener('click', () => {
+        window.location.href = 'partijen.php';
+    });
+}
 
-loginButton.addEventListener('click', () => {
-    window.location.href = 'login.php';
-});
+if (loginButton) {
+    loginButton.addEventListener('click', () => {
+        window.location.href = 'login.php';
+    });
+}
 
-registerButton.addEventListener('click', () => {
-    window.location.href = 'register.php';
-});
+if (registerButton) {
+    registerButton.addEventListener('click', () => {
+        window.location.href = 'register.php';
+    });
+}
 
-startButton.addEventListener('click', () => {
-    electionSelect.style.display = 'flex';
-    startButton.style.display = 'none';
-});
+if (startButton) {
+    startButton.addEventListener('click', () => {
+        if (electionSelect) electionSelect.style.display = 'flex';
+        startButton.style.display = 'none';
+    });
+}

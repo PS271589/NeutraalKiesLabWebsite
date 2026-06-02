@@ -14,6 +14,7 @@ document.querySelectorAll(".dropdown-content button").forEach(btn => {
 if (dropdownButton) {
     dropdownButton.addEventListener('click', (e) => {
         e.stopPropagation();
+        if (!dropdownContent) return;
         const isOpen = dropdownContent.style.display === 'block';
         dropdownContent.style.display = isOpen ? 'none' : 'block';
     });
