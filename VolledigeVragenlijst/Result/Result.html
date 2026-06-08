@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neutraal KiesLab Resultaten</title>
+    <link rel="stylesheet" href="Result.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter">
+</head>
+
+<body>
+    <nav>
+        <a href="../Vragenlijst/Vragenlijst.html">
+            <img class="logo" src="../assets/logo-met-text-rechts.svg" alt="Neutraal KiesLab Logo">
+        </a>
+    </nav>
+
+    <main class="results-container">
+
+        <h1>Jouw Resultaten</h1>
+
+        <p class="subtitle">
+            Op basis van jouw antwoorden hebben we de volgende partijen gevonden die het beste bij jou passen
+        </p>
+
+        <section class="best-match">
+
+            <p class="match-label">
+                Jouw beste match
+            </p>
+
+            <h2 id="bestParty">
+                Hier komt de partij met de hoogste overeenstemming te staan
+            </h2>
+
+            <div class="match-score">
+                <span id="bestPercentage">80%</span>
+                <small>overeenstemming</small>
+            </div>
+
+        </section>
+
+        <section class="all-parties">
+
+            <h3>Alle partijen</h3>
+
+            <div id="partyList"></div>
+
+        </section>
+
+        <div class="buttons">
+
+            <button class="save-btn">
+                Resultaten opslaan
+            </button>
+
+            <button class="retry-btn" onclick="window.location.href='../Vragenlijst/Vragenlijst.html'">
+                Opnieuw doen
+            </button>
+
+        </div>
+
+        <div class="notice">
+            <strong>Belangrijk:</strong>
+            Deze stemwijzer geeft een indicatie op basis van jouw antwoorden. Lees altijd de verkiezingsprogramma's zelf
+            en stem op de partij die het beste bij jou past.
+        </div>
+
+    </main>
+
+    <script src="Result.js"></script>
+<p>test</p>
+</body>
+
+</html>
