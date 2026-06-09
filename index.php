@@ -8,16 +8,17 @@ $elections = $db->SelectElections();
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Neutraal KiesLab - Home</title>
     <link rel="stylesheet" href="style/styles.css">
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Inter">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter">
     <script src="scripts/homepage.js" defer></script>
     <link rel="icon" type="image/svg" href="assets/logo-neutraal-kieslab-lichtblauw.svg">
 </head>
+
 <body>
     <nav>
         <a href="index.php">
@@ -39,7 +40,8 @@ $elections = $db->SelectElections();
     <main>
         <section class="hero">
             <h1>Welkom bij Neutraal KiesLab</h1>
-            <p>Ontdek welke politieke partij het beste bij jouw opvattingen past. Beantwoord onze vragen en krijg een objectief advies gebaseerd op jouw antwoorden.</p>
+            <p>Ontdek welke politieke partij het beste bij jouw opvattingen past. Beantwoord onze vragen en krijg een
+                objectief advies gebaseerd op jouw antwoorden.</p>
         </section>
 
         <section class="features">
@@ -61,13 +63,16 @@ $elections = $db->SelectElections();
         </section>
 
         <section class="start">
-            <button class="start-button">Start de Stemwijzer<img id="arrow" src="assets/arrow.svg" alt="Arrow icon"></button>
+            <button class="start-button">Start de Stemwijzer<img id="arrow" src="assets/arrow.svg"
+                    alt="Arrow icon"></button>
             <div class="election-select">
                 <?php if ($elections): ?>
                     <?php foreach ($elections as $election): ?>
-                        <button class="election-button">
-                            <?= htmlspecialchars($election["name"]) ?>
-                        </button>
+                        <a href="VolledigeVragenlijst/Vragenlijst/Vragenlijst.html" style="text-decoration: none;">
+                            <button class="election-button" type="button">
+                                <?= htmlspecialchars($election["name"]) ?>
+                            </button>
+                        </a>
                     <?php endforeach; ?>
                 <?php else: ?>
                     <p>Geen verkiezingen gevonden</p>
@@ -82,4 +87,5 @@ $elections = $db->SelectElections();
         <p>&copy; 2026 Neutraal KiesLab. Alle rechten voorbehouden.</p>
     </footer>
 </body>
+
 </html>
