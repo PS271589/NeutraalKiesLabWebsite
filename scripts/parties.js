@@ -1,25 +1,43 @@
-const dropdownButton = document.querySelector('.dropdown');
-const dropdownContent = document.querySelector('.dropdown-content');
+const dropdownButton = document.getElementsByClassName('dropdown')[0];
+const dropdownContent = document.getElementsByClassName('dropdown-content')[0];
+const loginButton = document.getElementsByClassName('login')[0];
+const registerButton = document.getElementsByClassName('register')[0];
+const partiesButton = document.getElementsByClassName('parties')[0];
 
-dropdownButton.addEventListener('click', (e) => {
-    e.stopPropagation();
-
-    dropdownContent.style.display =
-        dropdownContent.style.display === 'block'
-            ? 'none'
-            : 'block';
+document.querySelectorAll(".dropdown-content button").forEach(btn => {
+    btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        window.location.href = `?electionId=${btn.dataset.electionId}`;
+    });
 });
 
-document.addEventListener('click', (e) => {
-    const clickedInsideDropdown =
-        dropdownButton.contains(e.target) ||
-        dropdownContent.contains(e.target);
+if (dropdownButton) {
+    dropdownButton.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (!dropdownContent) return;
+        const isOpen = dropdownContent.style.display === 'block';
+        dropdownContent.style.display = isOpen ? 'none' : 'block';
+    });
+}
 
-    if (!clickedInsideDropdown) {
-        dropdownContent.style.display = 'none';
-    }
+document.addEventListener('click', () => {
+    if (dropdownContent) dropdownContent.style.display = 'none';
 });
 
-dropdownContent.addEventListener('click', () => {
-    dropdownContent.style.display = 'none';
-});
+if (partiesButton) {
+    partiesButton.addEventListener('click', () => {
+        window.location.href = 'partijen.php';
+    });
+}
+
+if (loginButton) {
+    loginButton.addEventListener('click', () => {
+        window.location.href = 'login.php';
+    });
+}
+
+if (registerButton) {
+    registerButton.addEventListener('click', () => {
+        window.location.href = 'register.php';
+    });
+}
