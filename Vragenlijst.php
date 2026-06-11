@@ -13,6 +13,7 @@ if (!$questions || count($questions) === 0) {
 
 $questionsJson = json_encode($questions);
 ?>
+
 <!DOCTYPE html>
 <html lang="nl">
 
@@ -73,8 +74,9 @@ $questionsJson = json_encode($questions);
 
     <script>
         const QUESTIONS = <?= $questionsJson ?>;
+        const ELECTION_ID = <?= $electionId ?>;
     </script>
-    <script src="script/Vragenlijst.js"></script>
+    <script src="scripts/Vragenlijst.js"></script>
 </body>
 
 </html>

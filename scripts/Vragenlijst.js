@@ -11,27 +11,46 @@ const elBtnBack         = document.getElementById("btn-back");
 const elBtnNext         = document.getElementById("btn-next");
 const answerButtons     = document.querySelectorAll(".antwoord-btn");
 
+function submitResults() {
+    const form = document.createElement("form");
+    form.method = "POST";
+    form.action = "Result.php";
+
+    const electionInput = document.createElement("input");
+    electionInput.type  = "hidden";
+    electionInput.name  = "election_id";
+    electionInput.value = ELECTION_ID;
+    form.appendChild(electionInput);
+
+    const answersInput  = document.createElement("input");
+    answersInput.type   = "hidden";
+    answersInput.name   = "answers";
+    answersInput.value  = JSON.stringify(
+        QUESTIONS.map((q, i) => ({ question_id: q.id, answer: answers[i] }))
+    );
+    form.appendChild(answersInput);
+
+    document.body.appendChild(form);
+    form.submit();
+}
+
 function renderQuestion() {
     const question = QUESTIONS[currentIndex];
 
     elCurrentQuestion.textContent = currentIndex + 1;
     elQuestionText.textContent    = question.question;
+    elCategory.style.display      = "none";
 
-    // The DB has no category column; hide the pill if there's nothing to show
-    elCategory.style.display = "none";
-
-    // Progress: based on how many questions have been answered
     const answered = answers.filter(a => a !== null).length;
     const percent  = Math.ceil((answered / QUESTIONS.length) * 100);
-    elProgressFill.style.width  = percent + "%";
+    elProgressFill.style.width    = percent + "%";
     elProgressPercent.textContent = percent + "%";
 
-    // Highlight the previously selected answer for this question (if any)
     answerButtons.forEach(btn => {
         btn.classList.toggle("selected", parseInt(btn.dataset.value) === answers[currentIndex]);
     });
 
-    // Back button: enabled when not on the first question
+    // Back button
     if (currentIndex > 0) {
         elBtnBack.classList.remove("disabled");
         elBtnBack.querySelector("img").src = "assets/icon-next-arrow.svg";
@@ -40,10 +59,9 @@ function renderQuestion() {
         elBtnBack.querySelector("img").src = "assets/icon-next-arrow-disabled.svg";
     }
 
-    // Next button: enabled when the current question has been answered
-    // and it's not the last question
-    const hasAnswer    = answers[currentIndex] !== null;
-    const isLast       = currentIndex === QUESTIONS.length - 1;
+    // Next button: only when answered and not last question
+    const hasAnswer = answers[currentIndex] !== null;
+    const isLast    = currentIndex === QUESTIONS.length - 1;
 
     if (hasAnswer && !isLast) {
         elBtnNext.classList.remove("disabled");
@@ -54,15 +72,17 @@ function renderQuestion() {
     }
 }
 
-// Answer buttons
 answerButtons.forEach(btn => {
     btn.addEventListener("click", () => {
         answers[currentIndex] = parseInt(btn.dataset.value);
         renderQuestion();
 
-        // Auto-advance to the next question after a short delay,
-        // unless we're on the last question
-        if (currentIndex < QUESTIONS.length - 1) {
+        const isLast = currentIndex === QUESTIONS.length - 1;
+
+        if (isLast) {
+            // Small delay so the selected state is visible before redirect
+            setTimeout(submitResults, 400);
+        } else {
             setTimeout(() => {
                 currentIndex++;
                 renderQuestion();
@@ -71,7 +91,6 @@ answerButtons.forEach(btn => {
     });
 });
 
-// Back button
 elBtnBack.addEventListener("click", () => {
     if (currentIndex > 0) {
         currentIndex--;
@@ -79,7 +98,6 @@ elBtnBack.addEventListener("click", () => {
     }
 });
 
-// Next button
 elBtnNext.addEventListener("click", () => {
     if (currentIndex < QUESTIONS.length - 1 && answers[currentIndex] !== null) {
         currentIndex++;
@@ -87,5 +105,4 @@ elBtnNext.addEventListener("click", () => {
     }
 });
 
-// Initial render
 renderQuestion();

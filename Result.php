@@ -1,3 +1,85 @@
+<?php
+require_once "database-handler.php";
+
+// Validate POST data
+$electionId  = isset($_POST["election_id"]) ? (int)$_POST["election_id"] : 0;
+$answersJson = isset($_POST["answers"])     ? $_POST["answers"]           : "";
+
+if (!$electionId || !$answersJson) {
+    header("Location: index.php");
+    exit;
+}
+
+$userAnswers = json_decode($answersJson, true);
+if (!$userAnswers) {
+    header("Location: index.php");
+    exit;
+}
+
+// Index user answers by question_id for easy lookup
+$userAnswerMap = [];
+foreach ($userAnswers as $a) {
+    $userAnswerMap[(int)$a["question_id"]] = (int)$a["answer"];
+}
+
+// Fetch party answers from DB
+$db          = new DatabaseHandler();
+$partyRows   = $db->SelectPartyAnswersByElection($electionId);
+
+if (!$partyRows) {
+    header("Location: index.php");
+    exit;
+}
+
+// Group by party and calculate weighted match score
+// answer values: 0 = oneens, 1 = neutraal, 2 = eens
+// max points per question = weight * 2 (both fully agree)
+// match points: fully agree = weight*2, one neutral = weight*1, both neutral = weight*1, disagree = 0
+$parties = [];
+foreach ($partyRows as $row) {
+    $partyId   = (int)$row["party_id"];
+    $partyName = $row["party_name"];
+    $qId       = (int)$row["question_id"];
+    $partyAns  = (int)$row["answer"];
+    $weight    = (int)$row["weight"];
+
+    if (!isset($parties[$partyId])) {
+        $parties[$partyId] = [
+            "name"       => $partyName,
+            "score"      => 0,
+            "max_score"  => 0,
+        ];
+    }
+
+    $parties[$partyId]["max_score"] += $weight * 2;
+
+    if (!isset($userAnswerMap[$qId])) continue;
+
+    $userAns = $userAnswerMap[$qId];
+
+    // Score: difference between answers (0-2), inverted to agreement
+    $diff  = abs($userAns - $partyAns); // 0, 1, or 2
+    $match = (2 - $diff) * $weight;     // max weight*2, min 0
+
+    $parties[$partyId]["score"] += $match;
+}
+
+// Calculate percentage and sort descending
+foreach ($parties as &$p) {
+    $p["percentage"] = $p["max_score"] > 0
+        ? (int)round(($p["score"] / $p["max_score"]) * 100)
+        : 0;
+}
+unset($p);
+
+usort($parties, fn($a, $b) => $b["percentage"] - $a["percentage"]);
+
+$best    = $parties[0];
+$others  = array_slice($parties, 1, 4); // next 4 = top 5 total
+
+// Bar colors (top 5)
+$colors  = ["#3b5bdb", "#4dabf7", "#74c0fc", "#a5d8ff", "#d0ebff"];
+?>
 <!DOCTYPE html>
 <html lang="nl">
 <head>
@@ -7,7 +89,6 @@
     <link rel="stylesheet" href="style/Result.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter">
 </head>
-
 <body>
     <nav>
         <a href="index.php">
@@ -18,46 +99,44 @@
     <main class="results-container">
 
         <h1>Jouw Resultaten</h1>
-
-        <p class="subtitle">
-            Op basis van jouw antwoorden hebben we de volgende partijen gevonden die het beste bij jou passen
-        </p>
+        <p class="subtitle">Op basis van jouw antwoorden hebben we de volgende matches gevonden</p>
 
         <section class="best-match">
-
-            <p class="match-label">
-                Jouw beste match
-            </p>
-
-            <h2 id="bestParty">
-                Hier komt de partij met de hoogste overeenstemming te staan
-            </h2>
-
+            <p class="match-label">Jouw beste match</p>
+            <h2><?= htmlspecialchars($best["name"]) ?></h2>
             <div class="match-score">
-                <span id="bestPercentage">80%</span>
+                <span><?= $best["percentage"] ?>%</span>
                 <small>overeenstemming</small>
             </div>
-
         </section>
 
         <section class="all-parties">
-
             <h3>Alle partijen</h3>
-
-            <div id="partyList"></div>
-
+            <div id="partyList">
+                <?php
+                $allTop = array_merge([$best], $others);
+                foreach ($allTop as $i => $party):
+                    $color = $colors[$i] ?? "#d0ebff";
+                ?>
+                <div class="party-row">
+                    <div class="party-top">
+                        <div class="party-info">
+                            <span class="rank"><?= $i + 1 ?></span>
+                            <span><?= htmlspecialchars($party["name"]) ?></span>
+                        </div>
+                        <span><?= $party["percentage"] ?>%</span>
+                    </div>
+                    <div class="progress">
+                        <div class="progress-fill" style="width: <?= $party["percentage"] ?>%; background: <?= $color ?>;"></div>
+                    </div>
+                </div>
+                <?php endforeach; ?>
+            </div>
         </section>
 
         <div class="buttons">
-
-            <button class="save-btn">
-                Resultaten opslaan
-            </button>
-
-            <button class="retry-btn" onclick="window.location.href='Vragenlijst.php'">
-                Opnieuw doen
-            </button>
-
+            <button class="save-btn">Resultaten opslaan</button>
+            <button class="retry-btn" onclick="window.location.href='index.php'">Opnieuw doen</button>
         </div>
 
         <div class="notice">
@@ -67,8 +146,5 @@
         </div>
 
     </main>
-
-    <script src="script/Result.js"></script>
 </body>
-
 </html>

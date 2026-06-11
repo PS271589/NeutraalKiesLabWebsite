@@ -179,6 +179,7 @@ nav {
 
 .antwoord-btn.selected {
     background-color: #20233f;
+    border-color: #20233f;
     color: #ffffff;
 }
 

@@ -61,6 +61,30 @@ class DatabaseHandler
         }
     }
 
+    public function SelectPartyAnswersByElection($electionId)
+    {
+        try
+        {
+            $pdo = new PDO($this->dataSource, $this->username, $this->password);
+            $statement = $pdo->prepare(
+                "SELECT p.id AS party_id, p.name AS party_name,
+                        pa.question_id, pa.answer, q.weight
+                 FROM party_answers pa
+                 JOIN parties p ON pa.party_id = p.id
+                 JOIN questions q ON pa.question_id = q.id
+                 JOIN questionnaires qn ON q.questionnaire_id = qn.id
+                 WHERE qn.election_id = :electionId"
+            );
+            $statement->bindParam(':electionId', $electionId, PDO::PARAM_INT);
+            $statement->execute();
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
+        }
+        catch (PDOException $e)
+        {
+            return false;
+        }
+    }
+
     public function CreateUser($name, $email, $password, $role = "user")
     {
         try

@@ -2,18 +2,22 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Inter', sans-serif;
 }
 
 body {
-    background: #eef2f8;
-    color: #0f172a;
+    font-family: 'Inter', sans-serif;
+    font-weight:400;
+    background-color: #f5f8fe;
+    color: #2b2d42;
 }
 
 nav {
-    background: white;
-    border-bottom: 1px solid #e5e7eb;
-    padding: 10px 200px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 7px 200px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #E5E7EB;
 }
 
 .logo {
@@ -148,38 +152,16 @@ h1 {
 .retry-btn {
     background: white;
     color: #252744;
+    border: 2px solid #d8dce6;
 }
 
 .notice {
     margin-top: 30px;
-    background: white;
+    background: none;
     padding: 25px;
     border-radius: 15px;
 
     text-align: center;
     color: #475569;
     line-height: 1.6;
-}
-
-@media(max-width:1000px) {
-
-    nav {
-        padding: 20px;
-    }
-
-    .results-container {
-        padding: 20px;
-    }
-
-    h1 {
-        font-size: 40px;
-    }
-
-    .best-match h2 {
-        font-size: 38px;
-    }
-
-    .buttons {
-        flex-direction: column;
-    }
 }
