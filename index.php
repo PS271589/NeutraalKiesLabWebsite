@@ -68,7 +68,7 @@ $elections = $db->SelectElections();
             <div class="election-select">
                 <?php if ($elections): ?>
                     <?php foreach ($elections as $election): ?>
-                        <a href="Vragenlijst.html" style="text-decoration: none;">
+                        <a href="Vragenlijst.php?election_id=<?= $election["id"] ?>" style="text-decoration: none;">
                             <button class="election-button" type="button">
                                 <?= htmlspecialchars($election["name"]) ?>
                             </button>

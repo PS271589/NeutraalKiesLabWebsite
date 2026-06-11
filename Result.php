@@ -10,7 +10,7 @@
 
 <body>
     <nav>
-        <a href="Vragenlijst.html">
+        <a href="index.php">
             <img class="logo" src="assets/logo-met-text-rechts.svg" alt="Neutraal KiesLab Logo">
         </a>
     </nav>
@@ -54,7 +54,7 @@
                 Resultaten opslaan
             </button>
 
-            <button class="retry-btn" onclick="window.location.href='Vragenlijst.html'">
+            <button class="retry-btn" onclick="window.location.href='Vragenlijst.php'">
                 Opnieuw doen
             </button>
 

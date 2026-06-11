@@ -14,18 +14,19 @@
 <body>
 
     <nav>
-        <a href="Vragenlijst.html">
+        <a href="index.php">
             <img class="logo" src="assets/logo-met-text-rechts.svg" alt="Neutraal KiesLab Logo">
         </a>
     </nav>
 
     <section class="progress-container">
-
+        <div class="text-container">
         <div class="progress-vragen">
             <p>Vraag 0 van 20</p>
         </div>
         <div class="progress-procent">
             <p>0%</p>
+        </div>
         </div>
 
         <div class="progress-bar">
@@ -63,11 +64,11 @@
 
     <footer class="footer-nav">
 
-        <button class="footer-btn">
-            ← Terug
+        <button class="footer-btn disabled">
+            Terug
         </button>
-        <button class="footer-btn">
-            Volgende →
+        <button class="footer-btn disabled">
+            Volgende
         </button>
     </footer>
     <script src="script/Vragenlijst.js"></script>
