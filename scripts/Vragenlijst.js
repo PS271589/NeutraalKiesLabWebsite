@@ -1,160 +1,91 @@
-const questions = [
+const answers = new Array(QUESTIONS.length).fill(null);
+let currentIndex = 0;
 
-    {
-        category: "Hier komt categorie",
-        question: "Hier komt vraag 1"
-    },
+const elCurrentQuestion = document.getElementById("current-question");
+const elTotalQuestions  = document.getElementById("total-questions");
+const elProgressPercent = document.getElementById("progress-percent");
+const elProgressFill    = document.getElementById("progress-fill");
+const elCategory        = document.getElementById("question-category");
+const elQuestionText    = document.getElementById("question-text");
+const elBtnBack         = document.getElementById("btn-back");
+const elBtnNext         = document.getElementById("btn-next");
+const answerButtons     = document.querySelectorAll(".antwoord-btn");
 
-    {
-        category: "Hier komt categorie",
-        question: "Hier komt vraag 2"
-    },
+function renderQuestion() {
+    const question = QUESTIONS[currentIndex];
 
-    {
-        category: "Hier komt categorie",
-        question: "Hier komt vraag 3"
-    },
+    elCurrentQuestion.textContent = currentIndex + 1;
+    elQuestionText.textContent    = question.question;
 
-    {
-        category: "Hier komt categorie",
-        question: "Hier komt vraag 4"
-    },
+    // The DB has no category column; hide the pill if there's nothing to show
+    elCategory.style.display = "none";
 
-    {
-        category: "Hier komt categorie",
-        question: "Hier komt vraag 5"
-    },
+    // Progress: based on how many questions have been answered
+    const answered = answers.filter(a => a !== null).length;
+    const percent  = Math.ceil((answered / QUESTIONS.length) * 100);
+    elProgressFill.style.width  = percent + "%";
+    elProgressPercent.textContent = percent + "%";
 
-    {
-        category: "Hier komt categorie",
-        question: "Hier komt vraag 6"
-    },
+    // Highlight the previously selected answer for this question (if any)
+    answerButtons.forEach(btn => {
+        btn.classList.toggle("selected", parseInt(btn.dataset.value) === answers[currentIndex]);
+    });
 
-    {
-        category: "Hier komt categorie",
-        question: "Hier komt vraag 7"
-    },
-
-    {
-        category: "Hier komt categorie",
-        question: "Hier komt vraag 8"
-    },
-
-    {
-        category: "Hier komt categorie",
-        question: "Hier komt vraag 9"
-    },
-
-    {
-        category: "Hier komt categorie",
-        question: "Hier komt vraag 10"
-    },
-
-    {
-        category: "Hier komt categorie",
-        question: "Hier komt vraag 11"
-    },
-
-    {
-        category: "Hier komt categorie",
-        question: "Hier komt vraag 12"
-    },
-
-    {
-        category: "Hier komt categorie",
-        question: "Hier komt vraag 13"
-    },
-
-    {
-        category: "Hier komt categorie",
-        question: "Hier komt vraag 14"
-    },
-
-    {
-        category: "Hier komt categorie",
-        question: "Hier komt vraag 15"
-    },
-
-    {
-        category: "Hier komt categorie",
-        question: "Hier komt vraag 16"
-    },
-
-    {
-        category: "Hier komt categorie",
-        question: "Hier komt vraag 17"
-    },
-
-    {
-        category: "Hier komt categorie",
-        question: "Hier komt vraag 18"
-    },
-
-    {
-        category: "Hier komt categorie",
-        question: "Hier komt vraag 19"
-    },
-
-    {
-        category: "Hier komt categorie",
-        question: "Hier komt vraag 20"
+    // Back button: enabled when not on the first question
+    if (currentIndex > 0) {
+        elBtnBack.classList.remove("disabled");
+        elBtnBack.querySelector("img").src = "assets/icon-next-arrow.svg";
+    } else {
+        elBtnBack.classList.add("disabled");
+        elBtnBack.querySelector("img").src = "assets/icon-next-arrow-disabled.svg";
     }
 
-];
+    // Next button: enabled when the current question has been answered
+    // and it's not the last question
+    const hasAnswer    = answers[currentIndex] !== null;
+    const isLast       = currentIndex === QUESTIONS.length - 1;
 
-let currentQuestion = 0;
-
-const category = document.querySelector(".category");
-const question = document.querySelector(".question");
-const vraagText = document.querySelector(".progress-vragen p");
-const procentText = document.querySelector(".progress-procent p");
-const progressFill = document.querySelector(".progress-fill");
-const antwoordBtns = document.querySelectorAll(".antwoord-btn");
-const footerButtons = document.querySelectorAll(".footer-btn");
-
-const terugBtn = footerButtons[0];
-const volgendeBtn = footerButtons[1];
-
-function updateQuestion() {
-    category.textContent = questions[currentQuestion].category;
-    question.textContent = questions[currentQuestion].question;
-    vraagText.textContent = `Vraag ${currentQuestion + 1} van ${questions.length}`;
-
-    const percentage = Math.round(((currentQuestion + 1) / questions.length) * 100);
-    procentText.textContent = `${percentage}%`;
-    progressFill.style.width = `${percentage}%`;
-
-    if (currentQuestion === questions.length - 1) {
-        volgendeBtn.textContent = "Bekijk resultaat";
+    if (hasAnswer && !isLast) {
+        elBtnNext.classList.remove("disabled");
+        elBtnNext.querySelector("img").src = "assets/icon-next-arrow.svg";
     } else {
-        volgendeBtn.textContent = "Volgende →";
+        elBtnNext.classList.add("disabled");
+        elBtnNext.querySelector("img").src = "assets/icon-next-arrow-disabled.svg";
     }
 }
 
-function nextQuestion() {
-    if (currentQuestion < questions.length - 1) {
-        currentQuestion++;
-        updateQuestion();
-    } else {
-        window.location.href = "../Result/Result.html";
-    }
-}
+// Answer buttons
+answerButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+        answers[currentIndex] = parseInt(btn.dataset.value);
+        renderQuestion();
 
-antwoordBtns.forEach(button => {
-    button.addEventListener("click", () => {
-        nextQuestion();
+        // Auto-advance to the next question after a short delay,
+        // unless we're on the last question
+        if (currentIndex < QUESTIONS.length - 1) {
+            setTimeout(() => {
+                currentIndex++;
+                renderQuestion();
+            }, 300);
+        }
     });
 });
 
-volgendeBtn.addEventListener("click", () => {
-    nextQuestion();
-});
-
-terugBtn.addEventListener("click", () => {
-    if (currentQuestion > 0) {
-        currentQuestion--;
-        updateQuestion();
+// Back button
+elBtnBack.addEventListener("click", () => {
+    if (currentIndex > 0) {
+        currentIndex--;
+        renderQuestion();
     }
 });
 
-updateQuestion();
+// Next button
+elBtnNext.addEventListener("click", () => {
+    if (currentIndex < QUESTIONS.length - 1 && answers[currentIndex] !== null) {
+        currentIndex++;
+        renderQuestion();
+    }
+});
+
+// Initial render
+renderQuestion();

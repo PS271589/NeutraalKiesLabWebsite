@@ -38,6 +38,29 @@ class DatabaseHandler
         }
     }
 
+    public function SelectQuestionsByElection($electionId)
+    {
+        try
+        {
+            $pdo = new PDO($this->dataSource, $this->username, $this->password);
+            $statement = $pdo->prepare(
+                "SELECT q.id, q.question, q.weight
+                 FROM questions q
+                 JOIN questionnaires qn ON q.questionnaire_id = qn.id
+                 WHERE qn.election_id = :electionId
+                 ORDER BY q.id ASC"
+            );
+            $statement->bindParam(':electionId', $electionId, PDO::PARAM_INT);
+            $statement->execute();
+            $rows = $statement->fetchAll(PDO::FETCH_ASSOC);
+            return $rows;
+        }
+        catch (PDOException $e)
+        {
+            return false;
+        }
+    }
+
     public function CreateUser($name, $email, $password, $role = "user")
     {
         try
