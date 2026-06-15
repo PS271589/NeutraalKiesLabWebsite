@@ -313,4 +313,82 @@ img.logo {
     border-radius: 8px;
     margin-bottom: 15px;
 }
+@media screen and (max-width: 768px) {
+    nav {
+        padding: 15px 20px;
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
 
+    nav div {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 5px;
+    }
+
+    .parties, .login, .register {
+        margin-right: 0;
+        padding: 10px 15px;
+    }
+
+    h1 {
+        font-size: 32px;
+    }
+
+    .parties-hero h1 {
+        font-size: 28px;
+    }
+
+    .hero, .start, .parties-hero {
+        padding: 40px 20px;
+        text-align: center;
+    }
+
+    .hero p {
+        width: 100%;
+        font-size: 16px;
+    }
+
+    .features {
+        flex-direction: column;
+        padding: 10px 20px;
+    }
+
+    .feature {
+        max-width: 100%;
+        margin: 10px 0;
+        padding: 20px;
+    }
+
+    .search-container {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        gap: 15px;
+    }
+
+    .dropdown {
+        min-width: 100%;
+        max-width: 100%;
+    }
+
+    .dropdown-content {
+        width: 90%;
+    }
+
+    .parties-list {
+        padding: 20px;
+        flex-direction: column;
+    }
+
+    .party-card {
+        width: 100%;
+    }
+
+    button, .start-button {
+        width: 100%;
+        justify-content: center;
+    }
+}
