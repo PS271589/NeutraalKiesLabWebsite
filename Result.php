@@ -1,5 +1,6 @@
 <?php
 require_once "database-handler.php";
+session_start();
 
 // Validate POST data
 $electionId  = isset($_POST["election_id"]) ? (int)$_POST["election_id"] : 0;
@@ -24,6 +25,12 @@ foreach ($userAnswers as $a) {
 
 // Fetch party answers from DB
 $db          = new DatabaseHandler();
+$isSaved     = false;
+
+if (isset($_SESSION["user_id"])) {
+    $isSaved = $db->SaveUserAnswers((int)$_SESSION["user_id"], $userAnswers);
+}
+
 $partyRows   = $db->SelectPartyAnswersByElection($electionId);
 
 if (!$partyRows) {
@@ -135,7 +142,13 @@ $colors  = ["#3b5bdb", "#4dabf7", "#74c0fc", "#a5d8ff", "#d0ebff"];
         </section>
 
         <div class="buttons">
-            <button class="save-btn">Resultaten opslaan</button>
+            <?php if (isset($_SESSION["user_id"])): ?>
+                <button class="save-btn" onclick="window.location.href='dashboard.php'">
+                    <?= $isSaved ? "Bekijk opgeslagen resultaten" : "Opslaan mislukt" ?>
+                </button>
+            <?php else: ?>
+                <button class="save-btn" onclick="window.location.href='login.php'">Log in om op te slaan</button>
+            <?php endif; ?>
             <button class="retry-btn" onclick="window.location.href='index.php'">Opnieuw doen</button>
         </div>
 

@@ -237,3 +237,7 @@ INSERT INTO user_answers (user_id, question_id, answer) VALUES
 (5, 3, 1), 
 (5, 4, 2), 
 (5, 5, 0);
+
+ALTER TABLE parties
+ADD COLUMN abbreviation VARCHAR(10) NOT NULL,
+ADD COLUMN color_hex VARCHAR(7) NOT NULL DEFAULT '#FF6B00';
