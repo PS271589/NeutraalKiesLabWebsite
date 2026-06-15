@@ -1,160 +1,108 @@
-const questions = [
+const answers = new Array(QUESTIONS.length).fill(null);
+let currentIndex = 0;
 
-    {
-        category: "Hier komt categorie",
-        question: "Hier komt vraag 1"
-    },
+const elCurrentQuestion = document.getElementById("current-question");
+const elTotalQuestions  = document.getElementById("total-questions");
+const elProgressPercent = document.getElementById("progress-percent");
+const elProgressFill    = document.getElementById("progress-fill");
+const elCategory        = document.getElementById("question-category");
+const elQuestionText    = document.getElementById("question-text");
+const elBtnBack         = document.getElementById("btn-back");
+const elBtnNext         = document.getElementById("btn-next");
+const answerButtons     = document.querySelectorAll(".antwoord-btn");
 
-    {
-        category: "Hier komt categorie",
-        question: "Hier komt vraag 2"
-    },
+function submitResults() {
+    const form = document.createElement("form");
+    form.method = "POST";
+    form.action = "Result.php";
 
-    {
-        category: "Hier komt categorie",
-        question: "Hier komt vraag 3"
-    },
+    const electionInput = document.createElement("input");
+    electionInput.type  = "hidden";
+    electionInput.name  = "election_id";
+    electionInput.value = ELECTION_ID;
+    form.appendChild(electionInput);
 
-    {
-        category: "Hier komt categorie",
-        question: "Hier komt vraag 4"
-    },
+    const answersInput  = document.createElement("input");
+    answersInput.type   = "hidden";
+    answersInput.name   = "answers";
+    answersInput.value  = JSON.stringify(
+        QUESTIONS.map((q, i) => ({ question_id: q.id, answer: answers[i] }))
+    );
+    form.appendChild(answersInput);
 
-    {
-        category: "Hier komt categorie",
-        question: "Hier komt vraag 5"
-    },
+    document.body.appendChild(form);
+    form.submit();
+}
 
-    {
-        category: "Hier komt categorie",
-        question: "Hier komt vraag 6"
-    },
+function renderQuestion() {
+    const question = QUESTIONS[currentIndex];
 
-    {
-        category: "Hier komt categorie",
-        question: "Hier komt vraag 7"
-    },
+    elCurrentQuestion.textContent = currentIndex + 1;
+    elQuestionText.textContent    = question.question;
+    elCategory.style.display      = "none";
 
-    {
-        category: "Hier komt categorie",
-        question: "Hier komt vraag 8"
-    },
+    const answered = answers.filter(a => a !== null).length;
+    const percent  = Math.ceil((answered / QUESTIONS.length) * 100);
+    elProgressFill.style.width    = percent + "%";
+    elProgressPercent.textContent = percent + "%";
 
-    {
-        category: "Hier komt categorie",
-        question: "Hier komt vraag 9"
-    },
+    answerButtons.forEach(btn => {
+        btn.classList.toggle("selected", parseInt(btn.dataset.value) === answers[currentIndex]);
+    });
 
-    {
-        category: "Hier komt categorie",
-        question: "Hier komt vraag 10"
-    },
-
-    {
-        category: "Hier komt categorie",
-        question: "Hier komt vraag 11"
-    },
-
-    {
-        category: "Hier komt categorie",
-        question: "Hier komt vraag 12"
-    },
-
-    {
-        category: "Hier komt categorie",
-        question: "Hier komt vraag 13"
-    },
-
-    {
-        category: "Hier komt categorie",
-        question: "Hier komt vraag 14"
-    },
-
-    {
-        category: "Hier komt categorie",
-        question: "Hier komt vraag 15"
-    },
-
-    {
-        category: "Hier komt categorie",
-        question: "Hier komt vraag 16"
-    },
-
-    {
-        category: "Hier komt categorie",
-        question: "Hier komt vraag 17"
-    },
-
-    {
-        category: "Hier komt categorie",
-        question: "Hier komt vraag 18"
-    },
-
-    {
-        category: "Hier komt categorie",
-        question: "Hier komt vraag 19"
-    },
-
-    {
-        category: "Hier komt categorie",
-        question: "Hier komt vraag 20"
+    // Back button
+    if (currentIndex > 0) {
+        elBtnBack.classList.remove("disabled");
+        elBtnBack.querySelector("img").src = "assets/icon-next-arrow.svg";
+    } else {
+        elBtnBack.classList.add("disabled");
+        elBtnBack.querySelector("img").src = "assets/icon-next-arrow-disabled.svg";
     }
 
-];
+    // Next button: only when answered and not last question
+    const hasAnswer = answers[currentIndex] !== null;
+    const isLast    = currentIndex === QUESTIONS.length - 1;
 
-let currentQuestion = 0;
-
-const category = document.querySelector(".category");
-const question = document.querySelector(".question");
-const vraagText = document.querySelector(".progress-vragen p");
-const procentText = document.querySelector(".progress-procent p");
-const progressFill = document.querySelector(".progress-fill");
-const antwoordBtns = document.querySelectorAll(".antwoord-btn");
-const footerButtons = document.querySelectorAll(".footer-btn");
-
-const terugBtn = footerButtons[0];
-const volgendeBtn = footerButtons[1];
-
-function updateQuestion() {
-    category.textContent = questions[currentQuestion].category;
-    question.textContent = questions[currentQuestion].question;
-    vraagText.textContent = `Vraag ${currentQuestion + 1} van ${questions.length}`;
-
-    const percentage = Math.round(((currentQuestion + 1) / questions.length) * 100);
-    procentText.textContent = `${percentage}%`;
-    progressFill.style.width = `${percentage}%`;
-
-    if (currentQuestion === questions.length - 1) {
-        volgendeBtn.textContent = "Bekijk resultaat";
+    if (hasAnswer && !isLast) {
+        elBtnNext.classList.remove("disabled");
+        elBtnNext.querySelector("img").src = "assets/icon-next-arrow.svg";
     } else {
-        volgendeBtn.textContent = "Volgende →";
+        elBtnNext.classList.add("disabled");
+        elBtnNext.querySelector("img").src = "assets/icon-next-arrow-disabled.svg";
     }
 }
 
-function nextQuestion() {
-    if (currentQuestion < questions.length - 1) {
-        currentQuestion++;
-        updateQuestion();
-    } else {
-        window.location.href = "../Result/Result.html";
-    }
-}
+answerButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+        answers[currentIndex] = parseInt(btn.dataset.value);
+        renderQuestion();
 
-antwoordBtns.forEach(button => {
-    button.addEventListener("click", () => {
-        nextQuestion();
+        const isLast = currentIndex === QUESTIONS.length - 1;
+
+        if (isLast) {
+            // Small delay so the selected state is visible before redirect
+            setTimeout(submitResults, 400);
+        } else {
+            setTimeout(() => {
+                currentIndex++;
+                renderQuestion();
+            }, 300);
+        }
     });
 });
 
-volgendeBtn.addEventListener("click", () => {
-    nextQuestion();
-});
-
-terugBtn.addEventListener("click", () => {
-    if (currentQuestion > 0) {
-        currentQuestion--;
-        updateQuestion();
+elBtnBack.addEventListener("click", () => {
+    if (currentIndex > 0) {
+        currentIndex--;
+        renderQuestion();
     }
 });
 
-updateQuestion();
+elBtnNext.addEventListener("click", () => {
+    if (currentIndex < QUESTIONS.length - 1 && answers[currentIndex] !== null) {
+        currentIndex++;
+        renderQuestion();
+    }
+});
+
+renderQuestion();

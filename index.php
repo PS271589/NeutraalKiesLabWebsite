@@ -61,26 +61,22 @@ $elections = $db->SelectElections();
                 <p>Maak een account aan om je resultaten te bewaren en later terug te kijken.</p>
             </div>
         </section>
+        <section class="start">    
+            <a href="Vragenlijst.php?election_id=1" style="text-decoration: none;">
+                <button class="start-button" type="button">
+                    Start de Stemwijzer
+                    <img id="arrow" src="assets/arrow.svg" alt="Arrow icon">
+                </button>
+            </a>
+            
+            <button id="results-button" type="button" onclick="window.location.href='<?php echo isset($_SESSION["user_id"]) ? "dashboard.php" : "login.php"; ?>'">
+                <img src="assets/icon-stats.svg" alt="stats icon">
+                Bekijk mijn resultaten
+            </button>
 
-        <section class="start">
-            <button class="start-button">Start de Stemwijzer<img id="arrow" src="assets/arrow.svg"
-                    alt="Arrow icon"></button>
-            <div class="election-select">
-                <?php if ($elections): ?>
-                    <?php foreach ($elections as $election): ?>
-                        <a href="Vragenlijst.html" style="text-decoration: none;">
-                            <button class="election-button" type="button">
-                                <?= htmlspecialchars($election["name"]) ?>
-                            </button>
-                        </a>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <p>Geen verkiezingen gevonden</p>
-                <?php endif; ?>
-            </div>
             <?php if (!isset($_SESSION["user_id"])): ?>
                 <p>Of <span><a href="register.php">maak een account aan</a></span> om je resultaten te bewaren</p>
-            <?php endif; ?>
+            <?php endif; ?> 
         </section>
     </main>
     <footer>
