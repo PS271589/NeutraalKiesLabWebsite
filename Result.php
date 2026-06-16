@@ -2,9 +2,21 @@
 require_once "database-handler.php";
 session_start();
 
-// Validate POST data
-$electionId  = isset($_POST["election_id"]) ? (int)$_POST["election_id"] : 0;
-$answersJson = isset($_POST["answers"])     ? $_POST["answers"]           : "";
+// Validate POST data, or fall back to session cache
+if (isset($_POST["election_id"], $_POST["answers"])) {
+    $electionId  = (int)$_POST["election_id"];
+    $answersJson = $_POST["answers"];
+
+    // Cache in session so login redirect can restore them
+    $_SESSION["pending_election_id"] = $electionId;
+    $_SESSION["pending_answers"]     = $answersJson;
+} elseif (isset($_SESSION["pending_election_id"], $_SESSION["pending_answers"])) {
+    $electionId  = (int)$_SESSION["pending_election_id"];
+    $answersJson = $_SESSION["pending_answers"];
+} else {
+    header("Location: index.php");
+    exit;
+}
 
 if (!$electionId || !$answersJson) {
     header("Location: index.php");
@@ -24,11 +36,13 @@ foreach ($userAnswers as $a) {
 }
 
 // Fetch party answers from DB
-$db          = new DatabaseHandler();
-$isSaved     = false;
+$db      = new DatabaseHandler();
+$isSaved = false;
 
 if (isset($_SESSION["user_id"])) {
     $isSaved = $db->SaveUserAnswers((int)$_SESSION["user_id"], $userAnswers);
+    // Clear the cache after saving
+    unset($_SESSION["pending_election_id"], $_SESSION["pending_answers"]);
 }
 
 $partyRows   = $db->SelectPartyAnswersByElection($electionId);
