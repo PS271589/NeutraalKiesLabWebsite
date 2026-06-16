@@ -93,16 +93,18 @@ class DatabaseHandler
         }
     }
 
-    public function CreateUser($name, $email, $password, $role = "user")
+    public function CreateUser($name, $email, $password, $birthdate, $city, $role = "user")
     {
         try
         {
             $pdo = $this->Connect();
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-            $statement = $pdo->prepare("INSERT INTO users (name, email, password, role) VALUES (:name, :email, :password, :role)");
+            $statement = $pdo->prepare("INSERT INTO users (name, email, password, birthdate, city, role) VALUES (:name, :email, :password, :birthdate, :city, :role)");
             $statement->bindParam(':name', $name);
             $statement->bindParam(':email', $email);
             $statement->bindParam(':password', $hashedPassword);
+            $statement->bindParam(':birthdate', $birthdate);
+            $statement->bindParam(':city', $city);
             $statement->bindParam(':role', $role);
             return $statement->execute();
         }

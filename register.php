@@ -6,6 +6,8 @@ $db = new DatabaseHandler();
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $name = $_POST["name"] ?? "";
+    $birthdate = $_POST["birthdate"] ?? "";
+    $city = $_POST["city"] ?? "";
     $email = $_POST["email"] ?? "";
     $password = $_POST["password"] ?? "";
     $confirmPassword = $_POST["confirm_password"] ?? "";
@@ -13,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if ($password !== $confirmPassword) {
         echo "<script>alert('Wachtwoorden komen niet overeen.');</script>";
     } else {
-        $result = $db->CreateUser($name, $email, $password);
+        $result = $db->CreateUser($name, $email, $password, $birthdate, $city);
         if ($result) {
             echo "<script>window.location.href='login.php';</script>";
         } else {
