@@ -53,7 +53,8 @@ class DatabaseHandler
             $statement = $pdo->prepare(
                 "SELECT q.id, q.question, q.weight
                  FROM questions q
-                 JOIN questionnaires qn ON q.questionnaire_id = qn.id
+                 JOIN questionnaire_questions qq ON q.id = qq.question_id
+                 JOIN questionnaires qn ON qq.questionnaire_id = qn.id
                  WHERE qn.election_id = :electionId
                  ORDER BY q.id ASC"
             );
@@ -79,9 +80,9 @@ class DatabaseHandler
                  FROM party_answers pa
                  JOIN parties p ON pa.party_id = p.id
                  JOIN questions q ON pa.question_id = q.id
-                 JOIN questionnaires qn ON q.questionnaire_id = qn.id
-                 WHERE qn.election_id = :electionId"
-            );
+                 JOIN questionnaire_questions qq ON q.id = qq.question_id
+                 JOIN questionnaires qn ON qq.questionnaire_id = qn.id
+                 WHERE qn.election_id = :electionId");
             $statement->bindParam(':electionId', $electionId, PDO::PARAM_INT);
             $statement->execute();
             return $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -139,7 +140,8 @@ class DatabaseHandler
                         ua.answer AS user_answer, pa.answer AS party_answer
                  FROM user_answers ua
                  JOIN questions q ON ua.question_id = q.id
-                 JOIN questionnaires qn ON q.questionnaire_id = qn.id
+                 JOIN questionnaire_questions qq ON q.id = qq.question_id
+                 JOIN questionnaires qn ON qq.questionnaire_id = qn.id
                  JOIN elections e ON qn.election_id = e.id
                  JOIN election_parties ep ON ep.election_id = e.id
                  JOIN parties p ON ep.party_id = p.id

@@ -105,6 +105,18 @@ $colors  = ["#3b5bdb", "#4dabf7", "#74c0fc", "#a5d8ff", "#d0ebff"];
 
     <main class="results-container">
 
+        <?php if (!isset($_SESSION["user_id"])): ?>
+
+        <h1>Jouw Resultaten</h1>
+        <p class="subtitle">Log in om jouw resultaten te bekijken</p>
+
+        <div class="buttons">
+            <button class="save-btn" onclick="window.location.href='login.php'">Inloggen</button>
+            <button class="retry-btn" onclick="window.location.href='index.php'">Opnieuw doen</button>
+        </div>
+
+        <?php else: ?>
+
         <h1>Jouw Resultaten</h1>
         <p class="subtitle">Op basis van jouw antwoorden hebben we de volgende matches gevonden</p>
 
@@ -142,13 +154,9 @@ $colors  = ["#3b5bdb", "#4dabf7", "#74c0fc", "#a5d8ff", "#d0ebff"];
         </section>
 
         <div class="buttons">
-            <?php if (isset($_SESSION["user_id"])): ?>
-                <button class="save-btn" onclick="window.location.href='dashboard.php'">
-                    <?= $isSaved ? "Bekijk opgeslagen resultaten" : "Opslaan mislukt" ?>
-                </button>
-            <?php else: ?>
-                <button class="save-btn" onclick="window.location.href='login.php'">Log in om op te slaan</button>
-            <?php endif; ?>
+            <button class="save-btn" onclick="window.location.href='dashboard.php'">
+                <?= $isSaved ? "Bekijk opgeslagen resultaten" : "Opslaan mislukt" ?>
+            </button>
             <button class="retry-btn" onclick="window.location.href='index.php'">Opnieuw doen</button>
         </div>
 
@@ -157,6 +165,8 @@ $colors  = ["#3b5bdb", "#4dabf7", "#74c0fc", "#a5d8ff", "#d0ebff"];
             Deze stemwijzer geeft een indicatie op basis van jouw antwoorden. Lees altijd de verkiezingsprogramma's zelf
             en stem op de partij die het beste bij jou past.
         </div>
+
+        <?php endif; ?>
 
     </main>
 </body>
