@@ -48,10 +48,11 @@ function formatResultDate($date)
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mijn Resultaten</title>
+    <title>Neutraal KiesLab - Resultaten</title>
 
     <link rel="stylesheet" href="style/styles.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter">
+    <link rel="icon" type="image/svg" href="assets/logo-neutraal-kieslab-lichtblauw.svg">
 </head>
 <body>
 
