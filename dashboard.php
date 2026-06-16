@@ -62,7 +62,7 @@ function formatResultDate($date)
     </a>
 
     <div>
-        <button class="parties">Partijen</button>
+        <button class="parties" onclick="window.location.href='partijen.php'">Partijen</button>
         <button class="logout" onclick="window.location.href='logout.php'">
             Uitloggen
         </button>

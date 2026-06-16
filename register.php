@@ -47,6 +47,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <label for="name">Naam</label>
                 <input type="text" id="name" name="name" placeholder="Jouw naam" required><br>
 
+                <label for="birthdate">Geboortedatum</label>
+                <input type="date" id="birthdate" name="birthdate" required><br>
+
+                <label for="city">Woonplaats</label>
+                <input type="text" id="city" name="city" placeholder="Jouw woonplaats" required><br>
+
                 <label for="email">E-mailadres</label>
                 <input type="email" id="email" name="email" placeholder="voorbeeld@email.nl" required><br>
 
