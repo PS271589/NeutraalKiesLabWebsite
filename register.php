@@ -6,14 +6,20 @@ $db = new DatabaseHandler();
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $name = $_POST["name"] ?? "";
+    $birthdate = $_POST["birthdate"] ?? "";
+    $city = $_POST["city"] ?? "";
     $email = $_POST["email"] ?? "";
     $password = $_POST["password"] ?? "";
     $confirmPassword = $_POST["confirm_password"] ?? "";
 
+    $teJong = (new DateTime())->diff(new DateTime($birthdate))->y < 18;
+
     if ($password !== $confirmPassword) {
         echo "<script>alert('Wachtwoorden komen niet overeen.');</script>";
+    } elseif ($teJong) {
+        echo "<script>alert('Je moet minimaal 18 jaar oud zijn om een account aan te maken.');</script>";
     } else {
-        $result = $db->CreateUser($name, $email, $password);
+        $result = $db->CreateUser($name, $email, $password, $birthdate, $city);
         if ($result) {
             echo "<script>window.location.href='login.php';</script>";
         } else {
@@ -46,6 +52,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <form action="register.php" method="post">
                 <label for="name">Naam</label>
                 <input type="text" id="name" name="name" placeholder="Jouw naam" required><br>
+
+                <label for="birthdate">Geboortedatum</label>
+                <input type="date" id="birthdate" name="birthdate" required><br>
+
+                <label for="city">Woonplaats</label>
+                <input type="text" id="city" name="city" placeholder="Jouw woonplaats" required><br>
 
                 <label for="email">E-mailadres</label>
                 <input type="email" id="email" name="email" placeholder="voorbeeld@email.nl" required><br>

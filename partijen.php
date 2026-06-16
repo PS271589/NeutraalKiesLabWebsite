@@ -83,16 +83,16 @@ if ($electionId) {
         <section class="parties-list">
             <?php if ($parties && count($parties) > 0): ?>
                 <?php foreach ($parties as $party): ?>
-                    <div class="party-card">
-                        <div class="party-logo"></div>
-                        
-                        <h2>
-                            <?= htmlspecialchars($party["name"]) ?>
-                        </h2>
-
-                        <p>
-                            <?= htmlspecialchars($party["description"] ?? "Geen beschrijving") ?>
-                        </p>
+                    <div class="party-card"
+                        data-name="<?= htmlspecialchars($party['name']) ?>"
+                        data-abbreviation="<?= htmlspecialchars($party['abbreviation'] ?? '') ?>"
+                        data-description="<?= htmlspecialchars($party['description'] ?? 'Geen beschrijving') ?>"
+                        data-color="<?= htmlspecialchars($party['color_hex'] ?? '#E5E7EB') ?>"
+                        onclick="openPartyPanel(this)">
+                        <div class="party-logo" style="background-color: <?= htmlspecialchars($party['color_hex'] ?? '#E5E7EB') ?>;">
+                            <span class="party-abbreviation"><?= htmlspecialchars($party['abbreviation'] ?? '') ?></span>
+                        </div>
+                        <h2><?= htmlspecialchars($party["name"]) ?></h2>
                     </div>
                 <?php endforeach; ?>
             <?php else: ?>
@@ -103,5 +103,46 @@ if ($electionId) {
     <footer>
         <p>&copy; 2026 Neutraal KiesLab. Alle rechten voorbehouden.</p>
     </footer>
+
+    <div class="party-panel-overlay" id="partyPanelOverlay" onclick="closePartyPanel()"></div>
+
+    <aside class="party-panel" id="partyPanel">
+        <button class="party-panel-close" onclick="closePartyPanel()">&#x2715;</button>
+        <div class="party-panel-logo" id="panelLogo">
+            <span class="party-abbreviation" id="panelAbbreviation"></span>
+        </div>
+        <h2 id="panelName"></h2>
+        <p id="panelDescription"></p>
+    </aside>
+
+    <script>
+        function openPartyPanel(card) {
+            const panel       = document.getElementById('partyPanel');
+            const overlay     = document.getElementById('partyPanelOverlay');
+            const logo        = document.getElementById('panelLogo');
+            const abbr        = document.getElementById('panelAbbreviation');
+            const name        = document.getElementById('panelName');
+            const description = document.getElementById('panelDescription');
+
+            abbr.textContent        = card.dataset.abbreviation;
+            name.textContent        = card.dataset.name;
+            description.textContent = card.dataset.description;
+            logo.style.backgroundColor = card.dataset.color;
+
+            panel.classList.add('open');
+            overlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePartyPanel() {
+            document.getElementById('partyPanel').classList.remove('open');
+            document.getElementById('partyPanelOverlay').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') closePartyPanel();
+        });
+    </script>
 </body>
 </html>

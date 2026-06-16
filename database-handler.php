@@ -12,6 +12,21 @@ class DatabaseHandler
         return $pdo;
     }
 
+    public function SelectActiveElection()
+    {
+        try
+        {
+            $pdo = $this->Connect();
+            $statement = $pdo->prepare("SELECT * FROM elections WHERE is_active = 1 LIMIT 1");
+            $statement->execute();
+            return $statement->fetch(PDO::FETCH_ASSOC);
+        }
+        catch (PDOException $e)
+        {
+            return false;
+        }
+    }
+
     public function SelectElections()
     {
         try
@@ -53,7 +68,8 @@ class DatabaseHandler
             $statement = $pdo->prepare(
                 "SELECT q.id, q.question, q.weight
                  FROM questions q
-                 JOIN questionnaires qn ON q.questionnaire_id = qn.id
+                 JOIN questionnaire_questions qq ON q.id = qq.question_id
+                 JOIN questionnaires qn ON qq.questionnaire_id = qn.id
                  WHERE qn.election_id = :electionId
                  ORDER BY q.id ASC"
             );
@@ -74,14 +90,14 @@ class DatabaseHandler
         {
             $pdo = $this->Connect();
             $statement = $pdo->prepare(
-                "SELECT p.id AS party_id, p.name AS party_name,
+                "SELECT p.id AS party_id, p.name AS party_name, p.color_hex,
                         pa.question_id, pa.answer, q.weight
                  FROM party_answers pa
                  JOIN parties p ON pa.party_id = p.id
                  JOIN questions q ON pa.question_id = q.id
-                 JOIN questionnaires qn ON q.questionnaire_id = qn.id
-                 WHERE qn.election_id = :electionId"
-            );
+                 JOIN questionnaire_questions qq ON q.id = qq.question_id
+                 JOIN questionnaires qn ON qq.questionnaire_id = qn.id
+                 WHERE qn.election_id = :electionId");
             $statement->bindParam(':electionId', $electionId, PDO::PARAM_INT);
             $statement->execute();
             return $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -92,16 +108,18 @@ class DatabaseHandler
         }
     }
 
-    public function CreateUser($name, $email, $password, $role = "user")
+    public function CreateUser($name, $email, $password, $birthdate, $city, $role = "user")
     {
         try
         {
             $pdo = $this->Connect();
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-            $statement = $pdo->prepare("INSERT INTO users (name, email, password, role) VALUES (:name, :email, :password, :role)");
+            $statement = $pdo->prepare("INSERT INTO users (name, email, password, birthdate, city, role) VALUES (:name, :email, :password, :birthdate, :city, :role)");
             $statement->bindParam(':name', $name);
             $statement->bindParam(':email', $email);
             $statement->bindParam(':password', $hashedPassword);
+            $statement->bindParam(':birthdate', $birthdate);
+            $statement->bindParam(':city', $city);
             $statement->bindParam(':role', $role);
             return $statement->execute();
         }
@@ -134,12 +152,13 @@ class DatabaseHandler
             $pdo = $this->Connect();
             $statement = $pdo->prepare(
                 "SELECT e.id AS election_id, e.name AS election_name, e.date AS election_date,
-                        p.id AS party_id, p.name AS party_name,
+                        p.id AS party_id, p.name AS party_name, p.color_hex,
                         q.id AS question_id, q.weight,
                         ua.answer AS user_answer, pa.answer AS party_answer
                  FROM user_answers ua
                  JOIN questions q ON ua.question_id = q.id
-                 JOIN questionnaires qn ON q.questionnaire_id = qn.id
+                 JOIN questionnaire_questions qq ON q.id = qq.question_id
+                 JOIN questionnaires qn ON qq.questionnaire_id = qn.id
                  JOIN elections e ON qn.election_id = e.id
                  JOIN election_parties ep ON ep.election_id = e.id
                  JOIN parties p ON ep.party_id = p.id
@@ -172,8 +191,9 @@ class DatabaseHandler
                 if (!isset($results[$electionId]["matches"][$partyId]))
                 {
                     $results[$electionId]["matches"][$partyId] = [
-                        "name" => $row["party_name"],
-                        "score" => 0,
+                        "name"      => $row["party_name"],
+                        "color_hex" => $row["color_hex"],
+                        "score"     => 0,
                         "max_score" => 0
                     ];
                 }

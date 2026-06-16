@@ -2,9 +2,21 @@
 require_once "database-handler.php";
 session_start();
 
-// Validate POST data
-$electionId  = isset($_POST["election_id"]) ? (int)$_POST["election_id"] : 0;
-$answersJson = isset($_POST["answers"])     ? $_POST["answers"]           : "";
+// Validate POST data, or fall back to session cache
+if (isset($_POST["election_id"], $_POST["answers"])) {
+    $electionId  = (int)$_POST["election_id"];
+    $answersJson = $_POST["answers"];
+
+    // Cache in session so login redirect can restore them
+    $_SESSION["pending_election_id"] = $electionId;
+    $_SESSION["pending_answers"]     = $answersJson;
+} elseif (isset($_SESSION["pending_election_id"], $_SESSION["pending_answers"])) {
+    $electionId  = (int)$_SESSION["pending_election_id"];
+    $answersJson = $_SESSION["pending_answers"];
+} else {
+    header("Location: index.php");
+    exit;
+}
 
 if (!$electionId || !$answersJson) {
     header("Location: index.php");
@@ -24,11 +36,13 @@ foreach ($userAnswers as $a) {
 }
 
 // Fetch party answers from DB
-$db          = new DatabaseHandler();
-$isSaved     = false;
+$db      = new DatabaseHandler();
+$isSaved = false;
 
 if (isset($_SESSION["user_id"])) {
     $isSaved = $db->SaveUserAnswers((int)$_SESSION["user_id"], $userAnswers);
+    // Clear the cache after saving
+    unset($_SESSION["pending_election_id"], $_SESSION["pending_answers"]);
 }
 
 $partyRows   = $db->SelectPartyAnswersByElection($electionId);
@@ -52,9 +66,10 @@ foreach ($partyRows as $row) {
 
     if (!isset($parties[$partyId])) {
         $parties[$partyId] = [
-            "name"       => $partyName,
-            "score"      => 0,
-            "max_score"  => 0,
+            "name"      => $partyName,
+            "color_hex" => $row["color_hex"],
+            "score"     => 0,
+            "max_score" => 0,
         ];
     }
 
@@ -84,8 +99,6 @@ usort($parties, fn($a, $b) => $b["percentage"] - $a["percentage"]);
 $best    = $parties[0];
 $others  = array_slice($parties, 1, 4); // next 4 = top 5 total
 
-// Bar colors (top 5)
-$colors  = ["#3b5bdb", "#4dabf7", "#74c0fc", "#a5d8ff", "#d0ebff"];
 ?>
 <!DOCTYPE html>
 <html lang="nl">
@@ -105,6 +118,18 @@ $colors  = ["#3b5bdb", "#4dabf7", "#74c0fc", "#a5d8ff", "#d0ebff"];
 
     <main class="results-container">
 
+        <?php if (!isset($_SESSION["user_id"])): ?>
+
+        <h1>Jouw Resultaten</h1>
+        <p class="subtitle">Log in om jouw resultaten te bekijken</p>
+
+        <div class="buttons">
+            <button class="save-btn" onclick="window.location.href='login.php'">Inloggen</button>
+            <button class="retry-btn" onclick="window.location.href='index.php'">Opnieuw doen</button>
+        </div>
+
+        <?php else: ?>
+
         <h1>Jouw Resultaten</h1>
         <p class="subtitle">Op basis van jouw antwoorden hebben we de volgende matches gevonden</p>
 
@@ -123,7 +148,7 @@ $colors  = ["#3b5bdb", "#4dabf7", "#74c0fc", "#a5d8ff", "#d0ebff"];
                 <?php
                 $allTop = array_merge([$best], $others);
                 foreach ($allTop as $i => $party):
-                    $color = $colors[$i] ?? "#d0ebff";
+                    $color = htmlspecialchars($party["color_hex"] ?? "#d0ebff");
                 ?>
                 <div class="party-row">
                     <div class="party-top">
@@ -142,13 +167,9 @@ $colors  = ["#3b5bdb", "#4dabf7", "#74c0fc", "#a5d8ff", "#d0ebff"];
         </section>
 
         <div class="buttons">
-            <?php if (isset($_SESSION["user_id"])): ?>
-                <button class="save-btn" onclick="window.location.href='dashboard.php'">
-                    <?= $isSaved ? "Bekijk opgeslagen resultaten" : "Opslaan mislukt" ?>
-                </button>
-            <?php else: ?>
-                <button class="save-btn" onclick="window.location.href='login.php'">Log in om op te slaan</button>
-            <?php endif; ?>
+            <button class="save-btn" onclick="window.location.href='dashboard.php'">
+                <?= $isSaved ? "Bekijk opgeslagen resultaten" : "Opslaan mislukt" ?>
+            </button>
             <button class="retry-btn" onclick="window.location.href='index.php'">Opnieuw doen</button>
         </div>
 
@@ -157,6 +178,8 @@ $colors  = ["#3b5bdb", "#4dabf7", "#74c0fc", "#a5d8ff", "#d0ebff"];
             Deze stemwijzer geeft een indicatie op basis van jouw antwoorden. Lees altijd de verkiezingsprogramma's zelf
             en stem op de partij die het beste bij jou past.
         </div>
+
+        <?php endif; ?>
 
     </main>
 </body>
