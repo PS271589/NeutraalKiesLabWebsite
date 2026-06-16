@@ -84,7 +84,9 @@ if ($electionId) {
             <?php if ($parties && count($parties) > 0): ?>
                 <?php foreach ($parties as $party): ?>
                     <div class="party-card">
-                        <div class="party-logo"></div>
+                        <div class="party-logo" style="background-color: <?= htmlspecialchars($party['color_hex'] ?? '#E5E7EB') ?>;">
+                            <span class="party-abbreviation"><?= htmlspecialchars($party['abbreviation'] ?? '') ?></span>
+                        </div>
                         
                         <h2>
                             <?= htmlspecialchars($party["name"]) ?>
