@@ -100,15 +100,7 @@ function formatResultDate($date)
 
             <h3>Top 3 matches:</h3>
 
-            <?php
-            $colors = [
-                "#59B29D",
-                "#4D8BC7",
-                "#243467"
-            ];
-
-            foreach ($result["matches"] as $index => $match):
-            ?>
+            <?php foreach ($result["matches"] as $index => $match): ?>
 
                 <div class="match-row">
                     <span><?php echo htmlspecialchars($match["name"]); ?></span>
@@ -118,7 +110,7 @@ function formatResultDate($date)
                 <div class="progress-bar">
                     <div
                         class="progress-fill"
-                        style="width: <?php echo (int) $match['score']; ?>%; background-color: <?php echo $colors[$index]; ?>;"
+                        style="width: <?php echo (int) $match['score']; ?>%; background-color: <?php echo htmlspecialchars($match['color_hex'] ?? '#cccccc'); ?>;"
                     ></div>
                 </div>
 

@@ -75,7 +75,7 @@ class DatabaseHandler
         {
             $pdo = $this->Connect();
             $statement = $pdo->prepare(
-                "SELECT p.id AS party_id, p.name AS party_name,
+                "SELECT p.id AS party_id, p.name AS party_name, p.color_hex,
                         pa.question_id, pa.answer, q.weight
                  FROM party_answers pa
                  JOIN parties p ON pa.party_id = p.id
@@ -135,7 +135,7 @@ class DatabaseHandler
             $pdo = $this->Connect();
             $statement = $pdo->prepare(
                 "SELECT e.id AS election_id, e.name AS election_name, e.date AS election_date,
-                        p.id AS party_id, p.name AS party_name,
+                        p.id AS party_id, p.name AS party_name, p.color_hex,
                         q.id AS question_id, q.weight,
                         ua.answer AS user_answer, pa.answer AS party_answer
                  FROM user_answers ua
@@ -174,8 +174,9 @@ class DatabaseHandler
                 if (!isset($results[$electionId]["matches"][$partyId]))
                 {
                     $results[$electionId]["matches"][$partyId] = [
-                        "name" => $row["party_name"],
-                        "score" => 0,
+                        "name"      => $row["party_name"],
+                        "color_hex" => $row["color_hex"],
+                        "score"     => 0,
                         "max_score" => 0
                     ];
                 }

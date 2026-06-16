@@ -66,9 +66,10 @@ foreach ($partyRows as $row) {
 
     if (!isset($parties[$partyId])) {
         $parties[$partyId] = [
-            "name"       => $partyName,
-            "score"      => 0,
-            "max_score"  => 0,
+            "name"      => $partyName,
+            "color_hex" => $row["color_hex"],
+            "score"     => 0,
+            "max_score" => 0,
         ];
     }
 
@@ -98,8 +99,6 @@ usort($parties, fn($a, $b) => $b["percentage"] - $a["percentage"]);
 $best    = $parties[0];
 $others  = array_slice($parties, 1, 4); // next 4 = top 5 total
 
-// Bar colors (top 5)
-$colors  = ["#3b5bdb", "#4dabf7", "#74c0fc", "#a5d8ff", "#d0ebff"];
 ?>
 <!DOCTYPE html>
 <html lang="nl">
@@ -149,7 +148,7 @@ $colors  = ["#3b5bdb", "#4dabf7", "#74c0fc", "#a5d8ff", "#d0ebff"];
                 <?php
                 $allTop = array_merge([$best], $others);
                 foreach ($allTop as $i => $party):
-                    $color = $colors[$i] ?? "#d0ebff";
+                    $color = htmlspecialchars($party["color_hex"] ?? "#d0ebff");
                 ?>
                 <div class="party-row">
                     <div class="party-top">
