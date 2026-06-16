@@ -153,14 +153,30 @@ INSERT INTO elections (name, date, description) VALUES
 -- --------------------------------------------------------
 
 INSERT INTO parties (abbreviation, name, description, color_hex) VALUES
-('PN',  'Progressief Nederland',       'Focus op klimaat, onderwijs, innovatie en gelijke kansen.',                       '#E6B04D'),
-('VBP', 'Vrije Burgers Partij',        'Focus op lagere belastingen, ondernemers en persoonlijke vrijheid.',              '#F97316'),
-('GT',  'Groene Toekomst',             'Milieu, natuur en duurzaamheid staan centraal.',                                  '#22C55E'),
-('SC',  'Sociaal Collectief',          'Sterke nadruk op sociale zekerheid, zorg en betaalbaar wonen.',                   '#EF4444'),
-('CDV', 'Christen Democratisch Verbond','Gemeenschapszin, gezin, veiligheid en bestuurlijke stabiliteit.',                '#2563EB'),
-('LD',  'Liberaal Democraten',         'Vrijheid, onderwijs, Europa en bestuurlijke vernieuwing.',                        '#06B6D4'),
-('NB',  'Nationaal Belang',            'Nadruk op nationale soevereiniteit, veiligheid en streng migratiebeleid.',        '#1F2937'),
-('DNP', 'Dieren & Natuur Partij',      'Bescherming van dieren, natuur, klimaat en leefomgeving.',                       '#84CC16');
+('PN',  'Progressief Nederland',
+ 'Progressief Nederland gelooft in een eerlijke en duurzame samenleving voor iedereen. Wij zetten in op forse investeringen in hernieuwbare energie, hoogwaardig onderwijs en gelijke kansen van wieg tot werk. De overheid moet een actieve rol spelen in het terugdringen van ongelijkheid, het beschermen van het klimaat en het stimuleren van innovatie. Internationaal samenwerken is voor ons geen keuze maar een noodzaak.',
+ '#E6B04D'),
+('VBP', 'Vrije Burgers Partij',
+ 'De Vrije Burgers Partij staat voor een kleinere overheid, lagere lasten en meer ruimte voor de eigen keuze van de burger. Ondernemers vormen de motor van onze economie en verdienen minder regeldruk en meer vertrouwen. Wij willen belastingen structureel verlagen, de bureaucratie snoeien en burgers zelf laten beslissen over hun leven, zorg en pensioen. Vrijheid is onze kern, verantwoordelijkheid ons kompas.',
+ '#F97316'),
+('GT',  'Groene Toekomst',
+ 'Groene Toekomst plaatst milieu, natuur en duurzaamheid centraal in elk beleidsterrein. Wij pleiten voor een radicale transitie naar een circulaire economie, een eerlijk CO2-prijssysteem en stevige bescherming van biodiversiteit. Landbouw, industrie en mobiliteit moeten verduurzamen — niet als bedreiging maar als kans voor nieuwe banen en een gezonde leefomgeving voor volgende generaties.',
+ '#22C55E'),
+('SC',  'Sociaal Collectief',
+ 'Het Sociaal Collectief staat op voor mensen die het zelf niet redden. Wij willen een sterk sociaal vangnet, betaalbare huurwoningen in elke wijk en toegankelijke zorg zonder wachtlijsten. De kloof tussen arm en rijk moet kleiner: hogere minimumuitkeringen, gratis kinderopvang en een vermogensbelasting voor de allerrijksten. Solidariteit is geen zwakte — het is de basis van een beschaafde samenleving.',
+ '#EF4444'),
+('CDV', 'Christen Democratisch Verbond',
+ 'Het Christen Democratisch Verbond verbindt christelijke waarden met daadkrachtig bestuur. Wij geloven in de kracht van gemeenschap, het belang van het gezin en de noodzaak van veiligheid op straat en aan de grenzen. Bestuurlijke stabiliteit, zorgvuldig begrotingsbeleid en respect voor tradities vormen onze leidraad. Wij bouwen aan een samenleving waarin iedereen zijn verantwoordelijkheid neemt.',
+ '#2563EB'),
+('LD',  'Liberaal Democraten',
+ 'De Liberaal Democraten combineren persoonlijke vrijheid met een sterk geloof in onderwijs, rechtsstaat en Europese samenwerking. Wij willen een moderne overheid die investeert in kennis, digitalisering en een eerlijk migratie­beleid. Burgers verdienen transparantie, inspraak en een politiek dat feiten boven sentiment stelt. Europa is onze kracht: alleen samen kunnen we mondiale uitdagingen het hoofd bieden.',
+ '#06B6D4'),
+('NB',  'Nationaal Belang',
+ 'Nationaal Belang stelt de Nederlandse burger voorop. Wij pleiten voor strikte controle over onze grenzen, een forse reductie van de instroom van asielzoekers en het terugwinnen van nationale soevereiniteit van Brussel. De veiligheid op straat moet verbeteren door meer politie en hogere straffen. Nederlandse belangen komen eerst — in economie, cultuur en beleid.',
+ '#1F2937'),
+('DNP', 'Dieren & Natuur Partij',
+ 'De Dieren & Natuur Partij geeft een stem aan wie zichzelf niet kan verdedigen: dieren, natuur en toekomstige generaties. Wij willen een einde aan de bio-industrie, sterke bescherming van wilde natuur en een landbouwtransitie naar dierwaardige en ecologische systemen. Klimaatrechtvaardigheid betekent ook dat de sterkste schouders de zwaarste lasten dragen — mondiaal en nationaal.',
+ '#84CC16');
 
 -- --------------------------------------------------------
 -- QUESTIONNAIRES
