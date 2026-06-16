@@ -3,7 +3,7 @@ require_once "database-handler.php";
 session_start();
 
 $db = new DatabaseHandler();
-$elections = $db->SelectElections();
+$activeElection = $db->SelectActiveElection();
 ?>
 
 <!DOCTYPE html>
@@ -62,7 +62,7 @@ $elections = $db->SelectElections();
             </div>
         </section>
         <section class="start">    
-            <a href="Vragenlijst.php?election_id=1" style="text-decoration: none;">
+            <a href="<?php echo $activeElection ? 'Vragenlijst.php?election_id=' . $activeElection['id'] : '#'; ?>" style="text-decoration: none;">
                 <button class="start-button" type="button">
                     Start de Stemwijzer
                     <img id="arrow" src="assets/arrow.svg" alt="Arrow icon">

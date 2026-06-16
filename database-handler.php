@@ -12,6 +12,21 @@ class DatabaseHandler
         return $pdo;
     }
 
+    public function SelectActiveElection()
+    {
+        try
+        {
+            $pdo = $this->Connect();
+            $statement = $pdo->prepare("SELECT * FROM elections WHERE is_active = 1 LIMIT 1");
+            $statement->execute();
+            return $statement->fetch(PDO::FETCH_ASSOC);
+        }
+        catch (PDOException $e)
+        {
+            return false;
+        }
+    }
+
     public function SelectElections()
     {
         try

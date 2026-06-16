@@ -12,8 +12,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $password = $_POST["password"] ?? "";
     $confirmPassword = $_POST["confirm_password"] ?? "";
 
+    $teJong = (new DateTime())->diff(new DateTime($birthdate))->y < 18;
+
     if ($password !== $confirmPassword) {
         echo "<script>alert('Wachtwoorden komen niet overeen.');</script>";
+    } elseif ($teJong) {
+        echo "<script>alert('Je moet minimaal 18 jaar oud zijn om een account aan te maken.');</script>";
     } else {
         $result = $db->CreateUser($name, $email, $password, $birthdate, $city);
         if ($result) {
