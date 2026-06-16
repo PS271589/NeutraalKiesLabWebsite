@@ -516,3 +516,54 @@ form button:hover {
     background-color: #1b1d2a;
     transform: scale(1);
 }
+@media screen and (max-width: 768px) {
+    nav, .features, .hero, .start, .parties-hero, .parties-list, .register-page, .results-page {
+        padding: 20px 15px !important;
+    }
+
+    h1 {
+        font-size: 34px !important;
+    }
+
+    .hero p {
+        width: 100%;
+        font-size: 16px;
+    }
+
+    .features {
+        flex-direction: column;
+    }
+
+    .feature {
+        max-width: 100%;
+        margin: 10px 0;
+        padding: 20px;
+    }
+
+    .parties-list {
+        flex-direction: column;
+    }
+
+    .party-card {
+        width: 100% !important;
+    }
+
+    .register-container {
+        width: 100% !important;
+        padding: 20px 15px;
+    }
+
+    .search-container {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .dropdown {
+        width: 100% !important;
+        max-width: 100%;
+    }
+    
+    .dropdown-content {
+        width: 90% !important;
+    }
+}
