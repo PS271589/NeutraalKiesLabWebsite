@@ -227,3 +227,41 @@ nav {
 .rotated {
     transform: rotate(180deg);
 }
+@media screen and (max-width: 768px) {
+    nav {
+        padding: 15px 20px;
+    }
+
+    .progress-container {
+        padding: 0 15px;
+    }
+
+    .question-section {
+        margin-top: 50px;
+        padding: 0 15px;
+    }
+
+    .question {
+        font-size: 28px;
+        line-height: 1.3;
+    }
+
+    .antwoorden {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+        margin-top: 40px;
+    }
+
+    .antwoord-btn {
+        width: 100%;
+        max-width: 320px;
+        height: 65px;
+        font-size: 20px;
+    }
+
+    .footer-nav {
+        padding: 0 15px;
+        margin-top: 40px;
+    }
+}
