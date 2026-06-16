@@ -30,7 +30,7 @@ CREATE TABLE parties (
     id INT AUTO_INCREMENT PRIMARY KEY,
     abbreviation VARCHAR(10) NOT NULL,
     name VARCHAR(50) NOT NULL,
-    description VARCHAR(255),
+    description VARCHAR(600),
     color_hex VARCHAR(7) NOT NULL DEFAULT '#FF6B00'
 );
 
